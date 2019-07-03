@@ -67,6 +67,16 @@ public:
 	{
 		return (x * vec.x) + (y * vec.y);
 	}
+	
+	// przypisanie
+	myVector<T> operator = (myVector<T> vec)
+	{
+		myVector<T> returnV;
+		returnV.x = vec.x;
+		returnV.y = vec.y;
+		return returnV;
+	}
+
 
 
 
