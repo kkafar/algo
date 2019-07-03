@@ -74,12 +74,10 @@ public:
 		myVector<T> returnV;
 		returnV.x = vec.x;
 		returnV.y = vec.y;
+		x = vec.x;
+		y = vec.y;
 		return returnV;
 	}
-
-
-
-
 };
 
 typedef myVector<float> v2f;
