@@ -1,10 +1,14 @@
-#pragma once
 // własna klasa reprezentująca wektor
 
 template<class T>
 class myVector
 {
 public:
+
+	//wektor 2D
+	T x, y;
+
+
 	myVector()
 	{
 		x = 0;
@@ -41,9 +45,6 @@ public:
 		returnV = ((*this) / getLength());
 		return returnV;
 	}
-
-	//wektor 2D
-	T x, y;
 
 
 	/* OPERATORY */
@@ -83,7 +84,7 @@ public:
 		return returnV;
 	}
 
-	// iloczyn wektorowy
+	// iloczyn skalarny
 	float operator * (myVector<T> vec)
 	{
 		return (x * vec.x) + (y * vec.y);
@@ -98,6 +99,11 @@ public:
 		x = vec.x;
 		y = vec.y;
 		return returnV;
+	}
+
+	bool operator == (myVector<T> vec)
+	{
+		return (x == vec.x && y == vec.y);
 	}
 };
 
