@@ -1,3 +1,4 @@
+#pragma once
 // własna klasa reprezentująca wektor
 
 template<class T>
@@ -21,11 +22,31 @@ public:
 
 	}
 
+	// funkcja zwracająca dł. wektora
+	float getLength()
+	{
+		return sqrt(x * x + y * y);
+	}
+
+	// funkcja przerabiająca wektor na rzecz którego jest wywoływana na wektor jednostkowy
+	void normalizeVector() 
+	{
+		(*this) = (*this) / getLength();
+	}
+
+	// funkcja zwracająca wektor jednostkowy
+	myVector<T> getNormalizedVector()
+	{
+		myVector<T> returnV;
+		returnV = ((*this) / getLength());
+		return returnV;
+	}
+
 	//wektor 2D
 	T x, y;
 
 
-	/* OPERATORY */ 
+	/* OPERATORY */
 	// dodawanie wektorów
 	myVector<T>operator + (myVector<T> vec)
 	{
@@ -67,7 +88,7 @@ public:
 	{
 		return (x * vec.x) + (y * vec.y);
 	}
-	
+
 	// przypisanie
 	myVector<T> operator = (myVector<T> vec)
 	{
@@ -80,5 +101,19 @@ public:
 	}
 };
 
+// operator mnożenia przez skalar, ale w zmienionej kolejności czynników
+// nie: wektor * skalar
+// tylko: skalar * wektor
+template<class T>
+myVector<T> operator * (float numb, myVector<T> vec)
+{
+	myVector<T> returnV;
+	returnV.x = vec.x * numb;
+	returnV.y = vec.y * numb;
+	return returnV;
+}
+
+
 typedef myVector<float> v2f;
 typedef myVector<int> v2i;
+typedef myVector<double> v2d;
