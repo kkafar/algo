@@ -1,13 +1,11 @@
-// Algorytmy_cwiczenia.cpp: Określa punkt wejścia dla aplikacji konsoli.
-//
-#include "stdafx.h"
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <stack>
 
 // w rozwianiu zdecydowalem sie na zastosowanie cos ala macieerzy sasiedztwa do przechowywania wag krawedzi
 
-#define INF 1000
+#define INF 10000
 
 
 using namespace std;
@@ -50,10 +48,11 @@ void wyswietl_tablice(int T[], int rozmiar)
 }
 
 //  (graf do przejrzenia; wierzcholek startowy; kolejka, tablica odwiedzin, tablica drog, tablica poprzednikow
-void znajdz_droge(vector<int> * graf, int w, queue<int> * q, int d[], int ** waga_krawedzi)
+void znajdz_droge(vector<int> * graf, int w, queue<int> * q, int d[], int ** waga_krawedzi, int sciezka[])
 {
 	q->push(w);
 	d[w] = 0;
+	sciezka[w] = w; 
 
 	while (!q->empty())
 	{
@@ -68,7 +67,11 @@ void znajdz_droge(vector<int> * graf, int w, queue<int> * q, int d[], int ** wag
 			{
 				// jezeli droga z aktualnie przegladanego wierzcholka w, do jego sasiada jest krotsza niz aktualna najkrotsza droga do sasiada, to podmien
 				if (d[w] + waga_krawedzi[w][*i] < d[*i])
+				{
 					d[*i] = d[w] + waga_krawedzi[w][*i];
+					// skoro podmieniamy to do sasiada (*i) przychodzimy z wierzcholka w
+					sciezka[*i] = w;
+				}
 
 				// dodaj sasiada do kolejki
 				q->push(*i);
@@ -76,6 +79,26 @@ void znajdz_droge(vector<int> * graf, int w, queue<int> * q, int d[], int ** wag
 
 		}
 	}
+}
+
+void wyswietl_sciezke(int w_startowy, int w_koncowy, int sciezka[])
+{
+	cout << "SZIEZKA: \n";
+	stack<int> s;
+	int w = w_koncowy; 
+	s.push(w);
+	while (w != w_startowy)
+	{
+		w = sciezka[w];
+		s.push(w);
+	}
+	
+	while (!s.empty())
+	{
+		cout << s.top() << " ";
+		s.pop();
+	}
+	cout << "\n";
 }
 
 int main()
@@ -97,7 +120,7 @@ int main()
 		// tworzenie wierszy
 		waga_krawedzi[i] = new int[l_wierzcholkow];
 
-		// tablice uzupelniamy wartosciami INF
+		// tablice uzupelniamy wartosciami 0
 		for (int j = 0; j < l_wierzcholkow; ++j)
 			waga_krawedzi[i][j] = 0;
 	}
@@ -108,6 +131,13 @@ int main()
 
 	for (int i = 0; i < l_wierzcholkow; ++i)
 		droga_do[i] = INF;
+
+
+	// s[i] - przechowuje index wierzcholka z którego przechodzimy na w_i
+	int * sciezka = new int[l_wierzcholkow];
+
+	for (int i = 0; i < l_wierzcholkow; ++i)
+		sciezka[i] = -1; 
 
 	// wczytywanie krawedzi grafu wraz z ich wagami
 	cout << "podaj kolejne krawedzie grafu wraz z wagami krawedzi:\n";
@@ -126,17 +156,22 @@ int main()
 
 	wyswietl_graf(graf, l_wierzcholkow);
 
-	znajdz_droge(graf, w_startowy, &q, droga_do, waga_krawedzi);
+	znajdz_droge(graf, w_startowy, &q, droga_do, waga_krawedzi, sciezka);
 
 	wyswietl_tablice(droga_do, l_wierzcholkow);
 
 	cout << "DROGA: " << droga_do[w_koncowy] << "\n";
+
+	//wyswietl_tablice(sciezka, l_wierzcholkow);
+
+	wyswietl_sciezke(w_startowy, w_koncowy, sciezka);
+
 	// zwalnianie zarezerwowanej pamieci operacyjnej
 	for (int i = 0; i < l_wierzcholkow; ++i)
 		delete[] waga_krawedzi[i];
 
 	delete[] graf;
 	delete[] droga_do;
-
+	delete[] sciezka;
 	return 0;
 }
