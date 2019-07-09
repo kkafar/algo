@@ -31,6 +31,7 @@ void dij(vector<int> * G, int w_s, int ** W, bool * V, int * P, int * D, queue<i
 	// Bo droga z w_startowy do samego siebie wynosi 0
 	D[w_s] = 0;
 	P[w_s] = w_s;
+
 	// dopóki kolejka nie jest pusta, czyli dopóki nie skończą się wierzchołki grafu
 	while (!q->empty())
 	{
@@ -56,9 +57,9 @@ void dij(vector<int> * G, int w_s, int ** W, bool * V, int * P, int * D, queue<i
 					// oraz zmieniamy wierzchołek z którego przyszliśmy 
 					P[*i] = w_s;
 				}
+				// dodajemy sąsiada do kolejki, aby go później rozważyć. 
+				q->push(*i);
 			}
-			// dodajemy sąsiada do kolejki, aby go później rozważyć. 
-			q->push(*i);
 		}
 	}
 	/* Po wykonianiu się tej funkcji, wszystkie tablice powinny zawierać prawidłowe rezultaty. */
@@ -156,14 +157,10 @@ int main()
 	cin >> w_startowy >> w_koncowy;
 	/// =======================================
 
-	error("Przed algo");
-
 	/* ALGORYTM WYSZUKUJĄCY NAJKRÓTSZĄ ŚCIEŻKĘ (DIJKSTRA) */
 	/// =======================================
 	dij(G, w_startowy, W, V, P, D, &q, l_wierzcholkow);
 	/// =======================================
-
-	error("po algo");
 
 	/* WYŚWIETLANIE ZAWARTOSCI TABLIC, GRAFU I MACIERZY 
 	   W CELU DEBBUGOWANIA */
@@ -172,9 +169,9 @@ int main()
 
 	wyswietl_graf(G, l_wierzcholkow);
 
-	wyswietl_tablice(P, l_wierzcholkow, "POPRZEDNIKOW");
+	wyswietl_tablice(P, l_wierzcholkow, "POPRZEDNIKOW przed dij()");
 
-	wyswietl_tablice(D, l_wierzcholkow, "DROG");
+	wyswietl_tablice(D, l_wierzcholkow, "DROG przed dij()");
 	/// =======================================
 
 	/* WYŚWIETLENIE REZULTATU, korzystając z funkcji sciezka(...) */ 
@@ -183,6 +180,8 @@ int main()
 	sciezka(w_startowy, w_koncowy, P);
 	/// =======================================
 
+	/* ZWALNIANIE ZAREZERWOWANEJ PAMIĘCI */
+	/// =======================================
 	delete[] G;
 	for (int i = 0; i < l_wierzcholkow; ++i)
 		delete[] W[i];
@@ -190,6 +189,8 @@ int main()
 	delete[] V;
 	delete[] P;
 	delete[] D;
+	/// =======================================
+
 	return 0; 
 }
 
