@@ -1,14 +1,13 @@
 /*
 	Implementacja i testowanie własnej listy jednokierunkowej.
 	W ramach ćwiczenia zaprojektowana przeze mnie. 
-
 	Każdy element listy, będzie zawierał swoją wartość i adres natępnego elementu w liście. 
-
 	Celem jest dodanie losowo wygenerowanych liczb, wyświetlenie lisy, oraz następnie usunięcie
 	jej elementów. 
 */
 #include <iostream>
 #include <time.h>
+#include <stdio.h>
 using namespace std;
 
 template<class T>
@@ -16,17 +15,17 @@ class List
 {
 public:
 	// wartośc danego elementu w liście
-	T value = 0;
+	T value;
 
 	// wskaźnik do następnego elementu w liście
 	// inicjujemy NULL'em, żeby zawsze ostatni element listy
 	// wskazywał na NULL
-	List<T> * next = NULL;
+	List<T> * next = 0;
 };
 
 int main()
 {
-	srand(time(NULL));
+	//srand(time(NULL));
 
 	/* REZERWACJA PAMIĘCI */ 
 	// dla pierwszego elementu i wskaźnika na kolejne, które będziemy mogli dodawać
@@ -58,7 +57,7 @@ int main()
 		// przesuwamy wskaźnik nowy na adres tego kolejnego, nowego elementu
 		nowy = nowy->next;
 		// przypisujemy mu jakąś wartość
-		nowy->value = rand() % 10;
+		nowy->value = i;
 		// i tak w koło
 	}
 	/// ==============================
@@ -72,6 +71,18 @@ int main()
 	cout << "\n";
 	/// ==============================
 
+	
+	/* ZWALNIANIE ZAREZERWOWANEJ PAMIECI */
+	/// ==============================
+	// zmienna przechowująca adres kolejnego elementu zawartego w usuwanym obiekcie
+	List<int> * address;
+	while (pierwszy)
+	{
+		address = pierwszy;
+		pierwszy = pierwszy->next;
+		delete address;
+	}
+	/// ==============================
 
 	return 0;
 }
