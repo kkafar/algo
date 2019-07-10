@@ -1,2 +1,6 @@
 # my-projects
-Random stuff I decided to place at GitHub
+Moje główne repozytorium. 
+
+TO DO: 
+1. Przenieść wszystkie rozwiązania zadań z SPOJ i https://satori.tcs.uj.edu.pl/ z ideone na GitHub'a
+2. Rozbudować listę (strukturę danych) 
