@@ -1,9 +1,9 @@
 /*
 	Implementacja i testowanie własnej listy jednokierunkowej.
-	W ramach ćwiczenia zaprojektowana przeze mnie. 
-	Każdy element listy, będzie zawierał swoją wartość i adres natępnego elementu w liście. 
+	W ramach ćwiczenia zaprojektowana przeze mnie.
+	Każdy element listy, będzie zawierał swoją wartość i adres natępnego elementu w liście.
 	Celem jest dodanie losowo wygenerowanych liczb, wyświetlenie lisy, oraz następnie usunięcie
-	jej elementów. 
+	jej elementów.
 */
 #include <iostream>
 #include <time.h>
@@ -20,20 +20,25 @@ public:
 	// wskaźnik do następnego elementu w liście
 	// inicjujemy NULL'em, żeby zawsze ostatni element listy
 	// wskazywał na NULL
-	List<T> * next = 0;
+	List<T> * next;
+
+	List()
+	{
+		next = NULL;
+	}
 };
 
 int main()
 {
 	//srand(time(NULL));
 
-	/* REZERWACJA PAMIĘCI */ 
+	/* REZERWACJA PAMIĘCI */
 	// dla pierwszego elementu i wskaźnika na kolejne, które będziemy mogli dodawać
 	/// ==============================
 	// pierwszy element listy, którego adres jest nam stale potrzebny do wyświetlania listy
-	List<int> * pierwszy = new List<int>; 
+	List<int> * pierwszy = new List<int>;
 	// wskaźnik na nowy element, który będziemy mogli w każdej chwili dodać do listy
-	List<int> * nowy;
+	List<int> * nowy = new List<int>;
 	/// ==============================
 
 	// pierwszemu elementowi nadaję jakąś wartość
@@ -71,7 +76,7 @@ int main()
 	cout << "\n";
 	/// ==============================
 
-	
+
 	/* ZWALNIANIE ZAREZERWOWANEJ PAMIECI */
 	/// ==============================
 	// zmienna przechowująca adres kolejnego elementu zawartego w usuwanym obiekcie
