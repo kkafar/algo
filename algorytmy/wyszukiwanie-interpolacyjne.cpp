@@ -3,6 +3,7 @@
 	O(log(log n))
 	* Dlaczego złożoność jest taka, nie potrafię wytłumaczyć, informacja ze strony
 	eduinf.waw.pl
+	https://eduinf.waw.pl/inf/alg/001_search/0039.php
 
 	Dokładny opis działania algorytmu w czerwonym zeszycie (to info dla mnie) albo po prostu na internecie
 
@@ -63,6 +64,30 @@ int wyszukiwanie_interpolacyjne(int T[], int l_elementow, int klucz)
 }
 /// ===================================
 
+/* wYSZUKIWANIE IINTERPOLACYJNE WERSJA REKURENCYJNA */ 
+/// ===================================
+int wyszukiwanie_interpolacyjne_rek(int T[], int klucz, int i_lewy, int i_prawy)
+{
+	// jeżeli szukana wartość mieści się w rozpatrywanym przedziale
+	if (klucz >= T[i_lewy] &&  klucz <= T[i_prawy])
+	{
+		// najpierw obliczamy prawdopodobny indeks szukanego elementu, dokładnie tak jak w wersji iteracyjnej
+		int i_klucz = i_lewy + ( ( (klucz - T[i_lewy]) * (i_prawy - i_lewy) ) / (T[i_prawy] - T[i_lewy]) );
+
+		// jeżeli wyznaczyliśmy indeks szukanego elementu poprawnie to go zwracamy
+		if (T[i_klucz] == klucz) 	return i_klucz;
+		// jeżeli klucz jest po naszej prawej stronie, to odpalamy się na przedziale po naszej prawej stronie
+		else if (T[i_klucz] < klucz) 	wyszukiwanie_interpolacyjne_rek(T, klucz, i_klucz + 1, i_prawy);
+		// jeżeli klucz jest po naszej lewej stonie to wywołujemy się na przedziale po naszej lewej stronie
+		else 				wyszukiwanie_interpolacyjne_rek(T, klucz, i_lewy, i_klucz -1);
+	}
+
+	// jeżeli szukana wartość nie mieści się w rozpatrywanym przedziale to zwracamy (-1);
+	else 
+		return -1;
+}
+/// ===================================
+
 int main()
 {
 	/* DEFINICJE ZMIENNYCH I WEJŚCIE */
@@ -85,7 +110,8 @@ int main()
 
 	/* WYŚWIETLENIE WYNIKU */ 
 	/// ===================================	
-	cout << "szukana wartosc znajduje sie na pozycji: " << wyszukiwanie_interpolacyjne(T, l_elementow, klucz);
+	cout << "szukana wartosc znajduje sie na pozycji: " << wyszukiwanie_interpolacyjne(T, l_elementow, klucz) << "\n";
+	cout << "wg algorytmu rekurencyjnego: " << wyszukiwanie_interpolacyjne_rek(T, klucz, 0, l_elementow - 1) << "\n";
 	/// ===================================	
 
 
