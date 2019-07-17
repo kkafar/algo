@@ -231,7 +231,9 @@ int main()
 	// klucz - poszukiwana wartość (tak można ją nazywać)
 	// skoro klucz jest typu int, to zakładamy po cichu że elementy
 	// zbioru T[] też są typu int
-	int l_elementow, klucz, i_klucz;
+	// i_klucz - przechowuje takie indeks, że T[i_klucz] == klucz
+	// index - przechowuje rezultat działania algorytmu. 
+	int l_elementow, klucz, i_klucz, index;
 
 	// zmienne do pomiaru czasu wykonania algorytmów
 	clock_t t1, t2;
@@ -278,36 +280,44 @@ int main()
 	/* WYŚWIETLENIE WYNIKU */ 
 	/// ===================================	
 	cout << "Poszukiwana wartosc to: " << klucz << " | indeks: " << i_klucz << "\n";
+	cout << "Czas dzialania algorytmow jest wyrazowny w liczba_sekund\n";
 
+	/// ===================================	
 	t1 = clock();
-	cout << "wyszukiwanie interpolacyjne iter: " << wyszukiwanie_interpolacyjne(T, l_elementow, klucz) << " czas: ";
+	index = wyszukiwanie_interpolacyjne(T, l_elementow, klucz);
 	t2 = clock();
 	dt = (double)(t2 - t1) / CLOCKS_PER_SEC;
-	cout << dt << "\n";
-	
-	t1 = clock();
-	cout << "wyszukiwanie interpolacyjne rek: " << wyszukiwanie_interpolacyjne_rek(T, klucz, 0, l_elementow - 1) << " czas: ";
-	t2 = clock();
-	dt = (double)(t2 - t1) / CLOCKS_PER_SEC;
-	cout << dt << "\n";
+	cout << "wyszukiwanie interpolacyjne iter: " << index << " czas: " << dt << " znaleziona wartosc: " << T[index]<< "\n";
 
+	/// ===================================	
 	t1 = clock();
-	cout << "wyszukiwanie binarne iter: " << wyszukiwanie_binarne(T, l_elementow, klucz) << "czas: ";
+	index = wyszukiwanie_interpolacyjne_rek(T, klucz, 0, l_elementow - 1);
 	t2 = clock();
 	dt = (double)(t2 - t1) / CLOCKS_PER_SEC;
-	cout << dt << "\n";
+	cout << "wyszukiwanie interpolacyjne rek: " << index << " czas: " << dt << " znaleziona wartosc: " << T[index] << "\n";
 
+	/// ===================================	
 	t1 = clock();
-	cout << "wyszukiwanie binarne rek: " << wyszukiwanie_binarne_rek(T, klucz, 0, l_elementow - 1) << "czas: ";
+	index = wyszukiwanie_binarne(T, l_elementow, klucz);
 	t2 = clock();
 	dt = (double)(t2 - t1) / CLOCKS_PER_SEC;
-	cout << dt << "\n";
+	cout << "wyszukiwanie binarne iter: " << index << " czas: " << dt << " znaleziona wartosc: " << T[index] << "\n";
 
+
+	/// ===================================	
 	t1 = clock();
-	cout << "wyszukiwanie liniowe: " << wyszukiwanie_liniowe(T, l_elementow, klucz) << "czas: ";
+	index =  wyszukiwanie_binarne_rek(T, klucz, 0, l_elementow - 1);
 	t2 = clock();
 	dt = (double)(t2 - t1) / CLOCKS_PER_SEC;
-	cout << dt << "\n";
+	cout << "wyszukiwanie binarne rek: " << index << " czas: " << dt << " znaleziona wartosc: " << T[index] << "\n";
+
+	/// ===================================	
+	t1 = clock();
+	index = wyszukiwanie_liniowe(T, l_elementow, klucz);
+	t2 = clock();
+	dt = (double)(t2 - t1) / CLOCKS_PER_SEC;
+	cout << "wyszukiwanie liniowe: " << index << " czas: " << dt << " znaleziona wartosc: " << T[index] << "\n";
+
 	/// ===================================	
 
 
