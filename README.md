@@ -5,3 +5,4 @@ TO DO:
 1. Przenieść wszystkie rozwiązania zadań z SPOJ i https://satori.tcs.uj.edu.pl/ z ideone na GitHub'a
 2. Rozbudować listę (strukturę danych) 
 3. Po napisaniu quicksort'a, albo mergesort'a napisać drugą wersję algorytmu wyszukującego dominantę w zbiorze.
+4. Zmienić rodzaj algorytmu sortującego w porównywarce algorytmów wyszukujących. 
