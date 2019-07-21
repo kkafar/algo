@@ -110,7 +110,10 @@ void merge_sort(int T[], int i_lewy_poczatek, int i_prawy_koniec)
 	int i_prawy_poczatek = (i_lewy_poczatek + i_prawy_koniec + 1) / 2;
 
 	cout << "dane wywolania: ilp:" << i_lewy_poczatek << " ipp:" << i_prawy_poczatek << " ipk:" << i_prawy_koniec << "\n";
-
+	cout << "stan T[]: [ ";
+	for (int i = i_lewy_poczatek; i <= i_prawy_koniec; ++i)
+		cout << T[i] << " ";
+	cout << "]\n";
 	// dzielimy zbiór, aż dojedziemy do singletonów
 
 	// stoimy pośrodku zbioru [i_lewy_poczatek ; i_prawy_koniec]
