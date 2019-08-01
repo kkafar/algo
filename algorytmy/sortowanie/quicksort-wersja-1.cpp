@@ -62,21 +62,17 @@ void quicksort(C T[], int ilp, int ipk)
 	// mniejsze od pivotu powinny znaleźć się na indeksach mniejszych od j. 
 
 	// teraz wywołujemy się rekurencyjnie na lewej i na prawej partycji
-	// jeżeli lewa partycja jest niepusta to wywołujemy się na niej
+	// jeżeli lewa partycja jest co najmniej 2 elementowa to wywołujemy się na niej
 	if (ilp < j)
 		quicksort(T, ilp, j - 1);		
 
 	// analogicznie dla prawej partycji 
-	// jeżeli indeks elementu na prawo od ostatniego zamienionego elementu nie wychodzi poza granice 
-	// rozważanego przedziału to się na nim wywołujemy 
+	// jeżeli prawa partycja jest co najmniej 2 elementowa to się na niej wywołujemy 
 	if (j + 1 < ipk)
 		quicksort(T, j + 1, ipk);
 	
 }
 /// ============================== 
-
-
-
 
 template<class C>
 void wyswietl_tablice(C T[], int l_elementow, const string& s)
