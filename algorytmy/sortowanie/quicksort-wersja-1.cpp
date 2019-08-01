@@ -51,7 +51,9 @@ void quicksort(C T[], int ilp, int ipk)
 	}
 	// brak dalszych elementów do przeglądania, teraz pivot, wymieniamy z elementem na pozycji j-tej (bo pivot < T[j] -- gdyby było inaczej
 	// to nasz algorytm by zmienił pozycję T[j] gdy był tam iterator i (chyba jasne xD))
-	// btw. jest to kluczowe, aby zamienić te elementy, 
+	// btw. jest to kluczowe, aby zamienić te elementy, bo na lewo od iteratora j mamy elementy mniejsze równe
+	// od pivotu, a na prawo od niego, elementy większe od pivotu, więc pomiędzy (dokładnie na indeks j)
+	// należy wstawić pivot
 	buffer = T[j]; 
 	T[j] = T[ipk];
 	T[ipk] = buffer;
