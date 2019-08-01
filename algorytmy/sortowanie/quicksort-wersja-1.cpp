@@ -15,8 +15,6 @@ using namespace std;
 template<class C>
 void quicksort(C T[], int ilp, int ipk)
 {
-	int id = ++ID;
-
 	// w naszym podejściu jako pivot wybieramy element środkowy zbioru
 	// może to być dowolna inna wartość, mediana, element losowy itd. 
 	int i_pivot = (ilp + ipk) / 2; 
