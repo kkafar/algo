@@ -38,10 +38,12 @@ private:
 		{
 			elementBeneath = NULL;
 		}
-
+		
 		~Element()
 		{
-			delete elementBeneath;
+			elementBeneath = NULL;
+			// nie może być:
+			// delete elementBeneath - bo wtedy usuwamy także element który jest pod nami, a nie tylko szczytowy
 		}
 
 	};
@@ -95,6 +97,9 @@ public:
 			first = first->elementBeneath;
 			// usuwamy stary pierwszy element
 			delete el;
+			
+			// zmniejszamy rozmiar stosu 
+			--size;
 
 			// zwracamy true
 			return true;
@@ -129,6 +134,7 @@ public:
 	// dekonstruktor
 	~Stack()
 	{
+		//cout << "wywolano ~Stack()\n";
 		delete first; 
 		delete newEl;
 	}
