@@ -9,6 +9,13 @@
 	4. metoda size() zwracająca aktualny rozmiar stosu
 */ 	
 
+/*
+	Ta implementacja ma pewne problemy: 
+	1. Za każdym razem gdy dodajemy element do stosu tworzymy nowy obiekt z nowym wskaźnikiem "under" (który jest potrzebny
+	oraz z nowym wskaźnikiem 't' który już potrzebny nie jest. Pasowałoby żeby wskaźnik 't' był zmienną statyczną, 
+	ale nie dokońca ogarniam jak to poprzerabiać żeby działało. 
+*/
+
 #include <iostream>
 #include <time.h>
 
