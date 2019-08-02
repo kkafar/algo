@@ -23,7 +23,8 @@ private:
 	// wskaźnik na element na szczycie stosu  
 	Stack<C> * t;
 
-	int size;
+	// zmienna przechowująca aktualny rozmiar stosu
+	unsigned int size;
 
 	// zmienna przechowująca wartość danego elementu 
 	C value;
@@ -36,9 +37,21 @@ public:
 		t = NULL;
 		size = 0; 
 	}
-
-
-
+/*
+	// dekonstruktor
+	~Stack()
+	{
+		// zmienna pomocnicza do usuwania kolejnych elementow
+		Stack<C> * p;
+		// wywołamy się dla każdego elementu należącego do stosu
+		for (int i = 0; i < size; ++i)
+		{
+			// ustawiamy się na szczytowym elemencie
+			p = top; 
+			// wskaźnik top, wskazuje na element klasy Stack<C> 
+		}
+	}
+*/
 	// metoda dodająca kolejny element do stosu 
 	void push(C val)
 	{
@@ -76,7 +89,7 @@ public:
 
 	C top()
 	{
-		return t->value;
+		return t->value;		
 	}
 };
 
@@ -101,16 +114,14 @@ int main()
 	cout << "Rozmiar stosu: " << S.getSize() << "\n";
 	cout << "Element na samej gorze: " << S.top() << "\n";
 
-	for (Stack<int> * i = (S.t); i; i = i->under)
-		cout << i->value << "\n";
-	cout << "\n";
+	cout << "Zawartosc stosu: \n";
+	while (S.getSize())
+	{
+		cout << S.top() << "\n";
+		S.pop();
+	}
 
-	cout << "Usuwam dwa elementy od gory!\n";
-	S.pop();
-	S.pop();
 	cout << "Rozmiar stosu: " << S.getSize() << "\n";
-	cout << "Elemenet na samej gorze: " << S.top() << "\n";
-
 
 	return 0; 
 }
