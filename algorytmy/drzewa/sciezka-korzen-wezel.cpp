@@ -101,21 +101,22 @@ void bfs(C * D, int nodes, int * prev_node)
 // wyświetlanie ścieżek
 void write(int nodes, int * prev_node) 
 {
+	stack<int> s;
+	int w; 
 
 	cout << "(NR WEZLA): (SCIEZKA)\n";
 	FOR(i, 1, nodes)
 	{
-		stack<int> s;
 		cout << i << ": ";
-
-		s.push(i);
-		while(i > 1)
+		w  = i;
+		s.push(w);
+		while( w > 1)
 		{
-			i = prev_node[i]; 
-			s.push(i);
+			w = prev_node[w]; 
+			s.push(w);
 		}
 
-		while (!s.empty())
+		while (!(s.empty()))
 		{
 			cout << s.top() << " ";
 			s.pop();
@@ -182,4 +183,4 @@ int main()
 	delete[] prev_node;
 	delete[] D; 
 	return 0; 
-}A
+}
