@@ -82,7 +82,7 @@ template<class V, class E> struct Graph
 	// jeżeli jest podany rząd grafu, to ustawiamy rozmiar wektora na wierzchołki. 
 	// Zdziwiło mnie trochę że można wywołać konstruktor już po wcześniejszym zapisaniu linijku z deklaracją obiektu. 
 	// Chociaż pamiętajmy o tym, że zawsze najpierw wywoływany jest konstruktor. 
-	Graph(int n_vertices = 0) : graph(n) {}
+	Graph(int n_vertices = 0) : graph(n_vertices) {}
 	/// ======================================
 
 	/* METODA DODAJĄCA KRAWĘDŹ SKIEROWANĄ DO GRAFU */
@@ -102,7 +102,7 @@ template<class V, class E> struct Graph
 		klasy Vertex, dodajemy indeks wierchołka końcowego krawędzi wraz z danymi skojarzonymi z tą że (jak to się pisze? D:) krawędzią. */
 		// dziwi mnie, że jako argument do funkcji push_back(…) można przesłać KONSTRUKTOR. Coś kojarzę że konstruktor nie zwraca żadnej
 		// wartości. Najwyraźniej jednak jest tworzony nowy obiekt i przesyłany jako parametr aktualny. 
-		graph(b_vertex).push_back(Edge(e_vertex, data));
+		graph[b_vertex].push_back(Edge(e_vertex, data));
 	}
 	/// ======================================
 
@@ -113,9 +113,9 @@ template<class V, class E> struct Graph
 	{
 		for (int i = 0; i < graph.size(); ++i)
 		{
-			cout << i << ": ";
+			cout << i << "(" << graph[i].ID << "): ";
 			for (auto j = graph[i].begin(); j != graph[i].end(); ++j)
-				cout << *j << " ";
+				cout << j->end << " ";
 			cout << "\n";
 		}
 	}
@@ -158,11 +158,15 @@ int main()
 		G.graph[i].ID = 1000 + i; 
 
 	// pobieramy dane wszystkich l_k krawędzi
+	cout << "l_k == " << l_k << "\n";
 	for (int i = 0; i < l_k; ++i)
 	{
 		cin >> b_vertex >> e_vertex >> e_data.weight;
 		G.addEdgeD(b_vertex, e_vertex, e_data);
 	} 
+
+	// wypisujemy zawartość grafu
+	G.write(); 
 
 
 	return 0; 
