@@ -105,5 +105,65 @@ template<class V, class E> struct Graph
 		graph(b_vertex).push_back(Edge(e_vertex, data));
 	}
 	/// ======================================
+
+
+	/* METODA WYPISUJĄCA AKTUALNĄ ZAWARTOŚĆ GRAFU */	
+	/// ======================================
+	void write()
+	{
+		for (int i = 0; i < graph.size(); ++i)
+		{
+			cout << i << ": ";
+			for (auto j = graph[i].begin(); j != graph[i].end(); ++j)
+				cout << *j << " ";
+			cout << "\n";
+		}
+	}
+	/// ======================================
 };
 /// ======================================
+
+// struktura z danymi skojarzonymi z wierzchołkami 
+struct V
+{
+	int ID;
+};
+
+// struktura z danymi skojarzonymi z krawędziami 
+struct E
+{
+	float weight;
+	E() { weight = 1.0; }
+	E(float w) : weight{w} {}
+};
+
+int main()
+{
+	// zmienne reprezentujące odpowiednio rząd (liczba wierzchołków) oraz rozmiar (liczba krawędzi) grafu
+	// dalej: b_vertex - wierzchołek początkowy krawędzi, e_vertex - wierzchołek końcowy krawędzi
+	// id - id przypisane konkretnemy wierzchołkowi, weight - waga konkretnej krawędzi 
+	int l_w, l_k, b_vertex, e_vertex;
+
+	// zmienna na dane skojarzone z krawędziami
+	E e_data;
+
+	// pobieramy dane grafu
+	cin >> l_w >> l_k;
+
+	// tworzymy sobie graf o l_w wierzchołkach
+	Graph<V, E> G(l_w);
+
+	// pobieramy dane dla każdego z wierzchołków
+	for (int i = 0; i < l_w; ++i)
+		G.graph[i].ID = 1000 + i; 
+
+	// pobieramy dane wszystkich l_k krawędzi
+	for (int i = 0; i < l_k; ++i)
+	{
+		cin >> b_vertex >> e_vertex >> e_data.weight;
+		G.addEdgeD(b_vertex, e_vertex, e_data);
+	} 
+
+
+	return 0; 
+}
