@@ -19,10 +19,10 @@ int main()
 	// lw + 1 bo numerujemy liście i gałęzie od 1
 	vector<int> * G = new vector<int>[l_w + 1];
 	// g[i] - ID mrówki znajdującej się na wierzchołku i
-	int * g = new int[l_w + 1], * prev = new int[l_w + 1], * t = new int[l_w + 1];
+	int * g = new int[l_w + 1], * prev = new int[l_w + 1];
 	// jeżeli g[i] == -1 to znaczy że nie ma tam mrówki. g[i] - mamy id mrówki na wierzchołku i
 	for (int i = 1; i <= l_w; ++i)	
-		t[i] = prev[i] = g[i] = -1;
+		prev[i] = g[i] = -1;
 
 	// pobieramy definicje kolejnych krawędzi 
 	for (int i = 1; i <= l_w-1; ++i)
@@ -78,7 +78,7 @@ int main()
 			/* WYPISYWANIE REZULTATOW */
 			cout << setw(5) << "Lp.  PK   W\n";
 			for (int j = 1; j <= l_m; ++j)
-			{
+			{ 
 				cout << j << setw(5) << M[j] << setw(5) << m[j] << "\n";
 			} 
 		}
@@ -89,16 +89,14 @@ int main()
 			// kolejka i iteratory do niej
 			int * q = new int[l_w], first, add = 1, current;
 			q[first = 0] = (prev[e] = e);
-			t[e] = 0;
 			while (first <= add)
 			{
 				current = q[first++];
 				for (auto j = G[current].begin(); j != G[current].end(); ++j)
 				{
-					if (t[*j] == -1)
+					if (prev[*j] == -1)
 					{
 						q[add++] = *j;
-						t[*j] = t[current] + 1;
 						prev[*j] = current; 
 					}
 				}
@@ -148,15 +146,14 @@ int main()
 			{
 				cout << j << setw(5) << M[j] << setw(5) << m[j] << "\n";
 			} 
-
-			resetArray(1, l_w, -1, t);
+			
 			resetArray(1, l_w, -1, prev);
 			resetArray(1, l_m, 0, blocked);
 		}
 
 	}
 
-	delete[] G; delete[] m; delete[] M; delete[] g; delete[] prev; delete[] t; delete[] blocked;
+	delete[] G; delete[] m; delete[] M; delete[] g; delete[] prev; delete[] blocked;
 }
 
 void resetArray(int l, int u, int val, int T[])
