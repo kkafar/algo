@@ -57,14 +57,19 @@ bool isPrime(const int p)
             x = powerMod(bases[i], d, p);
 
             if (x == 1 || x == (p - 1)) continue; 
-            /*
-            TUTAJ NALEŻY KONTYNUOWAĆ PISANIE KODU
-            */
+
+            int j = 1; 
+
+            while ((j < s) && (x != (p - 1)))
+            {
+                x = (x * x) % p; 
+                if (x == 1) return false;
+                ++j;
+            }
+            if (x != p - 1) return false;
         } 
-
-
     }
-
+    return true;
 }
 
 int main()
@@ -76,11 +81,13 @@ int main()
     for (int i = 0; i < z; ++i)
     {
         cin >> p;
+
+        // special case dla p == 2, bo test Millera Rabina zakłada p > 2
+        if (p == 2)              cout << "Pierwsza\n";
+        
         // jeżeli p jest parzyste, mniejsze od 2 od razu zwracamy false
-        if (!(p & 1) || p < 2)   cout << "Zlozona\n"; // czy 1 jest liczbą złożoną? Tak samo 0?
-        // No ale piszmy dla uproszczenia że złożona
-        // tak samo special case dla p == 2, bo test Millera Rabina zakłada p 
-        else if (p == 2)              cout << "Pierwsza\n";
+        else if (!(p & 1) || p < 2)   cout << "Zlozona\n"; // czy 1 jest liczbą złożoną? Tak samo 0? No ale piszmy dla uproszczenia że złożona
+
         // dla nieparzystego p > 2
         else cout << ((isPrime(p) == true) ? "Pierwsza\n" : "Zlozona\n");
 
