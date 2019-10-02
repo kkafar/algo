@@ -28,3 +28,23 @@ int main()
 
     return 0;
 }
+
+// wersja dla 2 zmiennych 
+int main()
+{
+    int f1 = 1, f2 = 2;
+    
+    // wypisujemy pierwsze 2 elementy ciągu (z pewnością są one mniejsze od miliona ;) 
+    cout << "1\n1\n";
+
+
+    while (f2 < 1000000)
+    {
+        cout << f2 << "\n";         // wyświetlamy ją
+        // do f2 przypisujemy kolejną liczbę z ciągu
+        f2 += f1;
+        f1 = f2 - f1;
+    }
+
+    return 0;
+}
