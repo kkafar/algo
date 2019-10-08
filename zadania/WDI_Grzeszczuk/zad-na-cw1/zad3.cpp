@@ -6,6 +6,14 @@ using namespace std;
 // można się chyba obejść bez i, j ;
 int main()
 {
+/* 
+    na opisywanie tego na raize nie mam czasu za bradzo, imo działa. 
+    sij to suma na przedziale F[i] : F[j]
+    ss - szukana suma, 
+    i - lewa granica przeziału, p - prawa granica przedziału 
+    l1 - element poprzedzający l2 w ciągu (l2 == F(i)) 
+    p1 - element poprzedzajćy p2 w ciągu (p2 == F(j))
+*/
     int sij = 3, ss, i = 2, j = 3, l1 = 1, l2 = 1, p1 = 1, p2 = 2;
 
     cin >> ss;
