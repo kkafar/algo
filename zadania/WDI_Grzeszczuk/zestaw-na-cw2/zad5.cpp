@@ -1,6 +1,5 @@
 //Napisać program, który wyznacza ostatnia niezerową cyfra N! Program powinien
 //działać dla N rzędu 1000000.
-
 #include <iostream>
 
 using namespace std;
@@ -14,8 +13,7 @@ int main()
     for (int i = 1; i <= n; ++i)
     {
         w *= i;
-        cout << i << ": " << w << " ostatnia: ";
-
+        w = w % 1000;
         if (w & 10 != 0)
             w = w % 10;
 
