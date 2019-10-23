@@ -4,7 +4,6 @@
   4. Napisać program obliczający i wypisujący wartość N! dla N z
 zakresu od 1 do 1000.
 */
-
 #include <iostream>
 using namespace std;
 
@@ -21,11 +20,12 @@ int main()
     factorial[MAX_DIGIT - 1] = 1;
 
     // pętla z iteratorem będącym kolejnymi czynnikami w silni
-    for (int i = 2;  i <= 500; i++)
+    for (int i = 2;  i <= 1000; i++)
     {
         // zmienna przechowująca to co jest ponad 9 w każdej komórce
         overflow = 0;
         // pętla lecąca przez całą liczbę
+        // nie jestem pewny czy j>= 0 czy j > 0, no ale niby działa.
         for (int j = MAX_DIGIT - 1; j >= 0; --j)
         {
             // każdą "cyfrę" mnożymy przez liczbę i dodajemy to co jest przeniesione z wcześniejszej komórki
@@ -33,6 +33,8 @@ int main()
             factorial[j] = factorial[j] * i + overflow;
             // overflow to liczba dziesiątek w bieżącej komórce (jeżeli w komórce mamy 0…9 to dostajemy 0 i wszystko się zgadza)
             overflow = factorial[j] / 10;
+            // no a w komórce factorial[j] zostawiamy po prostu cyfrę jedności; 
+            factorial[j] %= 10;
         }
     }
 
@@ -48,6 +50,6 @@ int main()
     }
 
     cout << "\n";
-    
+
     return 0;
 }
