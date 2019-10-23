@@ -1,57 +1,60 @@
+/*
+        ZESTAW 3
+        ZADAMIE 5
+
+        5. Obliczanie stałej e z rozwinięcia w szereg
+        e=1/0!+1/1!+1/2!+1/3!+... z dokładnością do np. 1000 cyfr dziesi
+        ętnych.
+
+*/
+
 #include <iostream>
+#include <iomanip>
 using namespace std;
-const int MAX_DIGIT = 3000;
+
 int main()
 {
-    // jeżeli chcemy większą liczbę to podmieniamy MAX_DIGIT po prostu
-    int digits[MAX_DIGIT], zeroes = 0;
-    bool sys_flag;
-    for (int i = 0; i < MAX_DIGIT; ++i) digits[i] = 0;
-    digits[MAX_DIGIT - 1] = 1;
-    int overflow = 0; 
+    int precision, mod;
 
-    for (int j = 1; j <= 1000; ++j)
+    cin >> precision;
+
+    // w tablicy e[] przechowujemy aktualną wartość liczby e
+    // w tmp przechowujemy wartości kolejnych ułamków z szeregu 1 + 1 + 1/2! + 1/3! + ... + 1/n!
+    int * e = new int[precision];
+    int * tmp = new int[precision + 1]; 
+
+    // zerujemy obydwie tablice
+    for (int i = 0; i < precision; ++i) e[i] = tmp[i] = 0;
+
+    // e[0] to skrajna PRAWA cyfra
+    e[0] = 2;
+    tmp[precision] = 1;
+
+    // pętla iterutąca tyle razy ile ma być ułamków (-2, bo 2 pierwsze mamy już wliczone w e[0])
+    for (int i = 2; i <= precision; ++i)
     {
-        // przejeżdżam przez całą liczbę 
-        for (int i = MAX_DIGIT - 1; i >= 0; --i)
+        // najpierw potrzebujemy obliczyc wartość ułamka, a potem dodać ten ułamek do e[]
+        // DZIELENIE (obliczanie wartości tego ułamka)
+        // dzielenie zaczynamy od skrajnej LEWEJ cyfry
+        for (int j = precision; j > 0; --j)
         {
-            if (digits[i] != 0)
-            {
-                digits[i] *= j;
-            }
-        }
-        // teraz przepisuję wszystko co jest ponad 10 do kolejnych komórek (po lewej)
-        for (int i = MAX_DIGIT - 1; i >= 1; --i)
-        {
-            if (digits[i] >= 10)
-            {
-                overflow = (digits[i] - digits[i] % 10) / 10;
-                digits[i - 1] += overflow;
-                digits[i] = digits[i] % 10;
-            }
+            mod = tmp[j];
+            tmp[j] = tmp[j] / i;
+            tmp[j - 1] += (mod % i) * 10;
         }
 
-        digits[MAX_DIGIT - 1] -= 1;
-        for (int i = MAX_DIGIT - 1; digits[i] < 0; --i)
-        {
-            // jeżeli dana cyfra jest mniejsza od zera, to tylko wtedy ta pęlta się wykonuje, więc nie trzeba sprawdzać
-            // żadnym ifem, a przynajmniej tak mi się wydaje
-            digits[i] += 10;
-            digits[i - 1] -= 1;
-        }
-    }
 
-        zeroes = 0;
-        for (int i = 0; i < MAX_DIGIT; ++i)
-        {
-            if (digits[i] == 0)
-                ++zeroes;
-            else
-                break;
-        }
-        for (int i = zeroes; i < MAX_DIGIT; ++i)
-            cout << digits[i];
+        // debug
+        cout << setw(10) << i << ": ";
+        for (int j = precision; j > 0; --j)
+            cout << tmp[j] << " ";
         cout << "\n";
 
+
+    }
+
+
+
+    delete[] e; delete[] tmp;
     return 0;
 }
