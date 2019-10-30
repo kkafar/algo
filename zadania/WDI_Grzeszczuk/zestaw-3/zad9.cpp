@@ -23,8 +23,12 @@ void czynnikiPierwsze(int x, bool skok[], int i)
         {
             if (x % j == 0)
             {
-                skok[i + j] = true;
+                if (i + j < N)
+                {
+                                    skok[i + j] = true;
                 for (int k = j; k * j < x + 1; k++) sito[k * j] = true;
+                }
+
             }
         }
     }
