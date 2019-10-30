@@ -8,9 +8,7 @@ wielkości wartość, jaka wystąpiła w ciągu. Można założyć, że w
 ciągu znajduje się wystarczająca liczba elementów.
 
 
-W TYM PODEJŚCIU NIE BIORĘ POD UWAGĘ POWTARZANIA SIĘ WARTOŚĆI 
-Jeżeli coś się powtarza to po prostu jest pwisywane do tablicy, traktujemy 
-to jako 10 największy element mulitizbioru a nie zbioru 
+Nie powinno być już problemu z powtarzającymi się wartościami
 */
 
 #include <iostream>
@@ -18,6 +16,7 @@ to jako 10 największy element mulitizbioru a nie zbioru
 using namespace std;
 
 // na siłę przyjmujemy wartość minimalną 
+// wystarczyłoby 0 tak naprawdę, bo wejście jest naturalne
 const int MINF(-10000000);
 const int N(10);
 
@@ -50,8 +49,11 @@ int main()
             T[N - 1] wypada poza tablicę.  
         */ 
         // szukamy indeksu dla którego zachodzi liczba > T[iter]
-        while (iter < N && T[iter] >= liczba)
+        while (iter < N && T[iter] < liczba)
             ++iter;
+        // po prostu jeżeli zaszła równość to znaczy że mamy powtarzający się element i już nic nie potrzebujemy robić
+        if (T[iter] == liczba)
+            continue;
 
         // przesuwamy wszystko w prawo
         for (int i = N - 1; i >= iter + 1; --i)
