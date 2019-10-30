@@ -12,6 +12,19 @@ using namespace std;
 
 const int MAX = 1000;
 
+// godny wyśmiania generator liczb pseudolosowych
+/*
+    By prowadzący: 
+    f(x) = 1372981 * x + 345124
+    g(x) = f(x) % 997 (jakaś pierwsza) (bo pierwsza jest w możliwie najmniejszej ilośc rozkładów innych
+    liczb :D (albo coś takiego :D))
+
+
+    Zadanko dla ambitnych: 
+    jak złamać taki generator
+*/
+
+
 bool onlyOdd(int n)
 {
     // po prostu bierzemy modulo 2 każdą cyfrę, jeżeli choć raz pojawi się 0 to znaczy
