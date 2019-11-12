@@ -41,10 +41,51 @@ struct ulamek
 
     // METODY
     // ==================================
+    // podnosimy ułamek do zadanej potęgi 
     void fpow(int exp)
     {
-        while (!exp)
+        int licznik = 1, mianownik = 1, wl = l, wm = m;
+        while (exp)
+        {
+            if (exp & 1)
+            {
+                licznik *= wl;
+                mianownik *= wm;
+            }
+
+            exp >>= 1;
+
+            if (!exp) break;
+
+            wl *= l;
+            wm *= m;
             // TU KONTUNUUJEMY
+        }
+        
+        // od razu skracamy
+        int nw = nwd(licznik, mianownik);
+        l = licznik;
+        m = mianownik;
+    }
+
+    // skracamy ulamek
+    void skroc()
+    {
+        int nw = nwd(l, m);
+        l = l / nw;
+        m = m / nw;
+    }
+
+    // wypisujemy ulamek
+    void pisz()
+    {
+        cout << l << "/" << m << "\n";
+    }
+
+    void wczytaj()
+    {
+        cout << "\nPodaj ulamek, licznik, mianownik: ";
+        cin >> l >> m;
     }
     // ==================================
 };
@@ -75,9 +116,7 @@ ulamek operator * (ulamek a, ulamek b)
     returnVal.l = a.l * b.l;
     returnVal.m = a.m * b.m;
     // jeszcze potrzebujemy skrócić ten ułamek
-    int nw = nwd(returnVal.l, returnVal.m);
-    returnVal.l = returnVal.l / nw;
-    returnVal.m = returnVal.m / nw;
+    returnVal.skroc();
     return returnVal;
 }
 ulamek operator / (ulamek a, ulamek b)
@@ -86,26 +125,17 @@ ulamek operator / (ulamek a, ulamek b)
     returnVal.l = a.l * b.m;
     returnVal.m = a.m * b.l;
     int nw = nwd(returnVal.l, returnVal.m);
-    returnVal.l = returnVal.l / nw;
-    returnVal.m = returnVal.m / nw;
+    returnVal.skroc();
     return returnVal;
 
 }
 int main()
 {
     ulamek a, b; 
-    cout << "a = " << a.l << "/" << a.m << "\n";
-    cout << "b = " << b.l << "/" << b.m << "\n";
-
-    cout << "a: ";
-    cin >> a.l >> a.m;
-    cout << "b: ";
-    cin >> b.l >> b.m;
-
-    cout << "a = " << a.l << "/" << a.m << "\n";
-    cout << "b = " << b.l << "/" << b.m << "\n";
-
-    a = a + b;
-    cout << "a+b = " << a.l << "/" << a.m << "\n";
+    a.wczytaj();
+    a.skroc();
+    a.pisz();
+    a.fpow(3);
+    a.pisz();
     return 0;
 }
