@@ -1,15 +1,16 @@
-#include <iostream>
-using namespace std;
-
-
 // METODY
 // ==================================
 /*
 * Metoda zwracająca największy wspólny dzielnik liczb a i b 
 * z wykorzystaniem arytmetyki modulo
 */
+#include <iostream>
+using namespace std;
+
 int nwd(int a, int b)
 {
+    a = (a < 0) ? (-a) : (a);
+    b = (b < 0) ? (-b) : (b);
     while (a > 0 && b > 0)
     {
         if (a >= b) a %= b;
@@ -17,7 +18,13 @@ int nwd(int a, int b)
     }
     // chcemy zwrócić niezerową, ale skoro druga jest zerem, to możemy zwrócić ich sumę
     // i się nie zastanawiać która jest która.
-    return a + b;
+    if (a + b != 0)
+        return a + b;
+    else
+    {
+        return -1;
+    }
+;
 }
 
 /*
@@ -87,6 +94,20 @@ struct ulamek
         cout << "\nPodaj ulamek, licznik, mianownik: ";
         cin >> l >> m;
     }
+
+    void operator = (ulamek a)
+    {
+        l = a.l; 
+        m = a.m;
+    }
+
+    bool operator == (ulamek a)
+    {
+        a.skroc();
+        int nw = nwd(l, m);
+        if((l / nw) == a.l && (m / nw) == a.m) return true;
+        else return false;
+    }
     // ==================================
 };
 /*
@@ -129,13 +150,4 @@ ulamek operator / (ulamek a, ulamek b)
     return returnVal;
 
 }
-int main()
-{
-    ulamek a, b; 
-    a.wczytaj();
-    a.skroc();
-    a.pisz();
-    a.fpow(3);
-    a.pisz();
-    return 0;
-}
+
