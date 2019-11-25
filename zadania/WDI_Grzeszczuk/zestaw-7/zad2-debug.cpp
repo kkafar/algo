@@ -44,10 +44,12 @@ bool pocz(int T[N], int idx, int numb, int id)
                 return true;
             }
         }
-        else 
+        else if (1)
         {
             cout << numb << " --- NIE pierwsza ---\n";
         }
+
+        cout << "NUMB POD KONiec petli: " << numb << "\n";
     }
     return false; 
     
