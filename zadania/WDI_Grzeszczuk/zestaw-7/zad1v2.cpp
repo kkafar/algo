@@ -6,11 +6,14 @@
 */
 
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
+const int N = 8;
+
 // ciała funkcji pod main'em
-bool moznaSkakac();
-void rysSzach(int ** T, int size);
+bool moznaSkakac(int t[N][N], int w, int k, int kierunek, int &nw, int &nk);
+void rysSzach(int t[N][N]);
 
 /*
     Nie będziemy zwracać wartości logicznej, a jedynie wypisywać szachownicę gdy uda nam sie znaleźć scieżkę 
@@ -28,21 +31,21 @@ void skok(int t[N][N], int w, int k, int nr, bool &flaga)
     if (nr == N * N)
     {
         // do implementacji!
-        // rysSzach(t);
+        rysSzach(t);
         flaga = true;
     }
-
-    int nw, nk; // nowy wiersz, nowa kolumna - tam gdzie będziemy chcieli skoczyć
     
     else
     {
+        int nw, nk; // nowy wiersz, nowa kolumna - tam gdzie będziemy chcieli skoczyć
+
         // w przeciwnym wypadku, oznacza to że mamy jeszcze jakieś skoki do wykonania ==> sprawdzamy gdzie możemy skoczyć
         // jeżeli gdzieś możemy skoczyć to oczywiście wykonujemy ten skok (wywołujemy się rekurencyjnie na danej pozycji)
         // jest maksymalnie 8 możliwośći skoku, tu je po prostu abstrakcyjnie rozważmy, sprawdzaniem gdzie możemy skoczyć 
         // a gdzie nie zajmiemy się w osobnej funkcji
         for (int i = 0; i < 8 && (!flaga); ++i)
         {
-            if (moznaSkakac())
+            if (moznaSkakac(t, w, k, i, nw, nk))
             {
                 // jeżeli można wykonać dany skok, to skaczemy :) 
                 // (do nowego wiersza i nowej kolumny)
@@ -67,5 +70,42 @@ int main()
         for (int j = 0; j < N; ++j)
             t[i][j] = 0;
 
+    int w, k;
+    cin >> w >> k;
+    skok(t, w, k, 1, flaga);
     return 0;
+}
+
+/*
+    w, k - aktualny wiersz i kolumna (tam gdzie znajduje się skoczek "wywołujący")
+    kierunek - skoczek maskymalnie może się poruszyć na 8 różnych sposobów:
+    (format (± nr wiersza, ± nr kolumny))
+    1. (-2, -1)   2. (-1, -2)  3. (-2, 1) 4. (-1, 2) 5. (1, -2) 6. (1, 2) 7. (2, -1) 8. (2, 1)
+    stąd też tablica ruchów: skoczek może zmeinić swoją pozycję o wektor (dw, dk)
+*/
+bool moznaSkakac(int t[N][N], int w, int k, int kierunek, int &nw, int &nk)
+{
+    int dw[8] = {-2, -1, -2, -1, 1, 1, 2, 2};
+    int dk[8] = {-1, -2, 1, 2, -2, 2, -1, 1};
+
+    // nowy wiersz = stary wiersz + (składowa "wierszowa" przemieszczenia)
+    // analogicznie dla kolumny
+    // poprzez referencję ustawiamy zmienne dla instancji wywołującej, jeżeli zwrócimy true to skoczymy na 
+    // (nw, nk)
+    nw = w + dw[kierunek];
+    nk = k + dk[kierunek];
+
+    // teraz możemy zwrócić już czy skok jest możliwy
+    // jeżeli nie wychodzimy poza szachownicę, oraz jeszcze nie bylismy na danym polu to możemy skoczyć
+    return (nw >= 0 && nw < N && nk >= 0 && nk < N && t[nw][nk] == 0);
+}
+
+void rysSzach(int t[N][N])
+{
+    for (int i = 0; i < N; ++i)
+    {
+        for (int j = 0; j < N; ++j)
+            cout << setw(4) << t[i][j];
+        cout << "\n";
+    }
 }
