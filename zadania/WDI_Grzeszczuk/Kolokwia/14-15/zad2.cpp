@@ -1,17 +1,4 @@
-/*
-    ZESTAW 7
-    ZADANIE 4
-8. Szachownica jest reprezentowana przez tablicę int t[8][8] wypełnioną liczbami
-naturalnymi zawierającymi koszt przebywania na danym polu szachownicy. Król
-szachowy znajduje się w wierszu 0 i kolumnie k. Król musi w dokładnie 7 ruchach
-dotrzeć do wiersza 7. Proszę napisać funkcję, która wyznaczy minimalny koszt
-przejścia króla. Do funkcji należy przekazać tablicę t oraz startową kolumnę k.
-Koszt przebywania na polu startowym i ostatnim także wliczamy do kosztu przejścia.
 
-Skoro król ma tylko 7 ruchów to musi iść pionowo w dół? 
-
-Nie wiem do końca jak to rozumieć, więc wyznaczam minimum z wszystkich kolumn 
-*/
 
 #include <iostream>
 #include <iomanip>
