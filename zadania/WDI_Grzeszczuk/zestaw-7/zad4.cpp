@@ -1,6 +1,6 @@
 /*
     ZESTAW 7
-    ZADANIE 4
+    ZADANIE 4 (/8)
 8. Szachownica jest reprezentowana przez tablicę int t[8][8] wypełnioną liczbami
 naturalnymi zawierającymi koszt przebywania na danym polu szachownicy. Król
 szachowy znajduje się w wierszu 0 i kolumnie k. Król musi w dokładnie 7 ruchach
@@ -8,11 +8,9 @@ dotrzeć do wiersza 7. Proszę napisać funkcję, która wyznaczy minimalny kosz
 przejścia króla. Do funkcji należy przekazać tablicę t oraz startową kolumnę k.
 Koszt przebywania na polu startowym i ostatnim także wliczamy do kosztu przejścia.
 
-Skoro król ma tylko 7 ruchów to musi iść pionowo w dół? 
 
-Nie wiem do końca jak to rozumieć, więc wyznaczam minimum z wszystkich kolumn 
+To zadanie brzmi jak konkretny dynamik, ale trzeba rekurencyjnie.
 */
-
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -21,48 +19,83 @@ using namespace std;
 
 #define FORU(i, a, b) for (int i = a; i <= b; ++i)
 #define FORD(i, a, b) for (int i = a; i => b; --i)
-const int INF = 2000000000;
 const int N = 8;
+const int INF = 200000000;
 
-void rysSzach(int t[N][N])
+int t[N][N] = {
+    {1, 3, 6, 0, 0, 0, 0, 0},
+    {3, 0, 5, 8, 1, 9, 9, 7},
+    {4, 5, 0, 7, 1, 2, 3, 0},
+    {9, 9, 0, 0, 2, 1, 3, 4},
+    {1, 3, 6, 7, 0, 2, 3, 4},
+    {3, 3, 5, 8, 1, 0, 9, 7},
+    {4, 5, 6, 7, 1, 2, 0, 0},
+    {0, 1, 1, 2, 2, 1, 3, 0}
+};
+
+void printTab(int T[N])
+{
+    FORU(i, 0, N-1)
+        cout << T[i] << " ";
+
+    cout << "\n";
+    
+}
+void printTab2D(int T[N][N])
 {
     FORU(i, 0, N-1)
     {
         FORU(j, 0, N-1)
-            cout << setw(4) << t[i][j];
+            cout << setw(4) << T[i][j];
 
         cout << "\n";
     }
 }
 
-int minkoszt = INF;
-int path(int koszt[N][N], int k, int aktualnyKoszt = 0)
+int min(int a, int b)
 {
-    // stajemy na danym polu, więc zwiększamy koszt ruchu
-    FORU(i, 0, N-1)
-        aktualnyKoszt += koszt[i][k];
-    
-    // po tej pętli, zawsze jestem w wierszu o nr 7 (czyli wierszu ósmym)
-    if (aktualnyKoszt < minkoszt)
-        minkoszt = aktualnyKoszt;
-    
-    if (k < 7) 
-        path(koszt, k + 1, 0);
-
-    return minkoszt;
+    return ((a <= b) ? (a) : (b));
 }
 
+bool mozliwy(int w, int k, int n)
+{
+    int dw = 1;
+    int dk[3] = {-1, 0, 1};
+    return (w + 1 < N && k + dk[n-1] >= 0 && k + dk[n-1] < N);
+}
+
+int path(int t[N][N], int k, int w = 0, int koszt = 0, string sciezka = "")
+{
+    /*
+        startujemy z pozycji (0, k), mamy 3 (lub mniej) możliwości ruchu, o wektor:
+        1. (1, 0) (dół)
+        2. (1, -1) (dół, lewoskos)
+        3. (1, 1) (dół, prawoskos)
+        Pamiętajmy że może ograniczać nas szachownica. 
+    */
+    // stajemy na danym polu (w,k), musimy doliczyć koszt postawienia na nim stopy
+    koszt += t[w][k];
+    if (w == 7)
+    {
+        cout << sciezka << "\n";
+        cout << "(" << w << ", " << k << ") KOSZT: " << (koszt) << "\n";
+        return koszt;
+    }
+
+    int a, b, c;
+    a = b = c = INF;
+    if (mozliwy(w, k, 1)) a = path(t, k-1, w+1, koszt, sciezka + "LD ");
+    if (mozliwy(w, k, 2)) b = path(t, k, w+1, koszt, sciezka + "D ");
+    if (mozliwy(w, k, 3)) c = path(t, k+1, w+1, koszt, sciezka + "PD ");
+
+    cout << sciezka << "\n";
+    cout << "(" << w << ", " << k << ") zwraca: " << (min(a, min(b,c))) << "\n";
+    return (min(a, min(b, c)));
+}
 
 int main()
 {
-    int t[N][N];
-    FORU(i, 0, N-1)
-        FORU(j, 0, N-1)
-            t[i][j] = (i+3)/(j + 1);
-
-    rysSzach(t);
-    cout << path(t, 0) << "\n";
-        
-    
+   
+    cout << path(t, 3) << "\n";
     return 0;
 }
