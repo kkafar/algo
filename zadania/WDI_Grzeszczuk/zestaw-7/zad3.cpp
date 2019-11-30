@@ -58,6 +58,36 @@ int func(int t[N], int idx = 0, int sumaEl = 0, int sumaIdx = 0, int moc = 0)  /
 
 }
 
+
+/* 
+DRUGA WERSJA Z ZAJĘĆ
+const int N = 5;
+int T[N] = {0, 1, 2, 3, 5};
+
+void szukaj(int T[N], int & minEl, int liczbaEl, int sumaEl, int sumaInd, int idx, bool wez)
+{
+    if (idx == N)
+        return;
+
+    if (wez)
+    {
+        sumaEl += T[idx];
+        sumaInd += idx;
+    }
+    if (sumaEl == sumaInd)
+    {
+        if (minEl != 0 && minEl > liczbaEl)
+        {
+            minEl = liczbaEl;
+        }
+    }
+    szukaj(T, minEl, liczbaEl, sumaEl, sumaInd, idx + 1, true);
+    szukaj(T, minEl, liczbaEl, sumaEl, sumaInd, idx + 1, false);
+
+    
+}
+*/
+
 int main()
 {
     //int t[N] = {1, 7, 3, 5, 11, 2};
