@@ -6,7 +6,6 @@ warunki:
 2) liczby pierwsze nie mogą zajmować sąsiednich pól tablicy
 Wartość 1 została już umieszczona na pierwszym miejscu (pod indeksem 0). Proszę napisać
 program, który wypisuje wszystkie poprawne rozmieszczenia liczb w tablicy.
-
 Nie mogę znaleźć błędu! generowane jest tylko jedno ustawienie, chyba że faktycznie innego nie ma
 */
 
@@ -22,7 +21,7 @@ const int N = 9;
 int T[9];
 int digit[8] = {2, 3, 4, 5, 6, 7, 8, 9};
 
-void printTab(int T[N])
+void printTab(int T[], int N)
 {
     for (int i = 0; i < N; ++i)
         cout << T[i] << " ";
@@ -55,6 +54,10 @@ bool isPrime(int n)
 
  void func(int T[N], int idx, int digit[8], int n)
  {
+    //dane wywołania
+    //cout << "func: idx: " << idx << " | n: " << n << "\n";
+
+
     // brzydko, ale nie mam czasu myśleć :D
     if (idx != 0)
     {
@@ -63,12 +66,18 @@ bool isPrime(int n)
         digit[n-2] = 0; 
     }
 
+    //cout << "stany tablic: \nT[]: ";
+    //printTab(T, N);
+   // cout << "digit[]: ";
+    //printTab(digit, 8);
     if (idx == N-1)
     {
-        printTab(T);
+        //cout << "TUTAJ\n";
+        printTab(T, N);
         T[idx] = 0;
         digit[n-2] = n;
         return;
+        
     }
 
     for (int i = 0; i < 8; ++i)
@@ -77,6 +86,8 @@ bool isPrime(int n)
             func(T, idx + 1, digit, i + 2);
     }
 
+    // TEGO BRAKOWAŁO - uzupełnianie tablicy o zużytą liczbę przy wychodzieniu z instancji 
+    digit[n-2] = n;
  }
 
 int main()
