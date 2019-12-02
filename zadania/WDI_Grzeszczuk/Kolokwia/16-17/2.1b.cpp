@@ -34,32 +34,43 @@ bool isSumPrime(int S[2*N], int idx)
 
 void print(int S[2*N], int idx)
 {
-    REP(i, idx - 1)
+    REP(i, idx)
         cout << S[i] << " + ";
 
-    cout << S[idx - 1];
+    //cout << S[idx - 1];
     cout << "\n";
 }
 
 int func(int A[N], int B[N], int S[2*N], int & count, int iS = 0, int iAB = 0)
 {
-    if (iAB >= N)
+    //cout << "func: count: " << count << " | iS: " << iS << " | iAB: " << iAB << "\n";
+    //cout << "S[]: "; print(S, iS); cout << "\n";
+    if (iAB == N)
     {
         if (isSumPrime(S, iS))
         {
             ++count;
             print(S, iS);
         }
+        return -1;
     }
+
     else
     {
         S[iS] = A[iAB];
         func(A, B, S, count, iS + 1, iAB + 1);
+        S[iS] = 0;
         S[iS] = B[iAB];
         func(A, B, S, count, iS + 1, iAB + 1);
-        S[iS] = A[iAB];
-        S[iS + 1] = B[iAB + 1];
-        func(A, B, S, count, iS + 2, iAB + 1);
+        S[iS] = 0;
+       // if (iS + 2 < 2*N)
+        //{
+            S[iS] = A[iAB];
+            S[iS + 1] = B[iAB];
+            func(A, B, S, count, iS + 2, iAB + 1);
+            S[iS] = S[iS + 1] = 0;
+        //}
+ 
     }
 
     return count;
@@ -73,6 +84,7 @@ int main()
     //bool v[N];
     //REP(i, N) v[i] = false;
     REP(i, 2*N) S[i] = 0;
-    func(A, B, S, count);
+    print(S, 2*N);
+    cout << func(A, B, S, count) << "\n";
     return 0;
 }
