@@ -1,5 +1,5 @@
 /*
-Zadanie 2.2b (2017/18) Kartkówka
+Zadanie 2.2a (2017/18) Kartkówka
 Dana jest tablica int t[9], w której należy umieścić liczby od 1 do 9 tak, aby były spełnione
 warunki:
 1) wartości na sąsiednich polach tablicy muszą się różnić co najmniej o 2
