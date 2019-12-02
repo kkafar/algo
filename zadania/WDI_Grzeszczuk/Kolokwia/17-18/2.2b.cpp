@@ -1,5 +1,5 @@
 /*
-Zadanie 2a. Kolos 2017/18
+Zadanie 2b. Kolos 2017/18
  Dane s¡ deklaracje:
 const int N=1000;
 int tab[N];
