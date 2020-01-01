@@ -73,7 +73,7 @@ public:
         Metoda wypisująca obecną zawartość listy.
     */
     /// =============================================================
-    void print(const & string s = "")
+    void print(const string & s = "")
     {
         int nr = 1;
         cout << s << "\n";
