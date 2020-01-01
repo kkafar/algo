@@ -1,25 +1,26 @@
-/*
-  By K. Kafara
-*/
-
 #include <iostream>
-
+#include <string>
 using namespace std;
+
+// wyciągamy definicję struktury (nie jestem pewien cyz tak to się akurat nazywa) żeby można było "widziały" ją 
+// funkcje poza struct List
+template<typename type>
+struct Element
+{
+    type val;
+    Element<type> * next = NULL;
+};
 
 /* Reprezentacja listy za pomocą "łańcucha odsyłaczowego" */ 
 template<typename type>
 struct List
 {
-    struct Element
-    {
-        type val;
-        Element * next = NULL;
-    };
+public:
 
     // wskaźnik na pierwszy element listy 
-    Element * first = NULL;
+    Element<type> * first = NULL;
     // zmienna pomocnicza, do wstawiania, usuwania itd. 
-    Element * tmp = NULL;
+    Element<type> * tmp = NULL;
 
     /// =============================================================
 
@@ -35,7 +36,7 @@ struct List
     */
     void insert(type value)
     {
-        tmp = new Element;
+        tmp = new Element<type>;
         tmp->val = value;
         tmp->next = first;
         first = tmp;
@@ -72,27 +73,14 @@ struct List
         Metoda wypisująca obecną zawartość listy.
     */
     /// =============================================================
-    void print_list()
+    void print(const & string s = "")
     {
         int nr = 1;
-        for (register Element * iter = first; iter != NULL; iter = iter->next, ++nr)
-            cout << nr << ": " << iter->val << "\n";
+        cout << s << "\n";
+        for (register Element<type> * iter = first; iter != NULL; iter = iter->next, ++nr)
+            cout << nr << " " << iter->val;
+        cout << "\n";
     }
+    /// =============================================================
 };
 
-
-
-int main()
-{
-    List<int> L;
-
-    for (int i = 0; i < 15; ++i)
-        L.insert(i);
-    
-    L.print_list();
-    L.pop();
-    L.print_list();
-    L.pop();
-    L.print_list();
-    return 0;
-}
