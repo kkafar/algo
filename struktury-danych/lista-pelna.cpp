@@ -26,7 +26,6 @@ struct Element
     Element<type> * next = NULL;
 };
 
-/* Reprezentacja listy za pomocą "łańcucha odsyłaczowego" */ 
 template<typename type>
 struct List
 {
@@ -124,18 +123,15 @@ public:
     */
     void reverse()
     {
-        if (first == NULL) return;
-        
-        // tworzymy stos (korzystając z istniejącej już struktury listy)
-        Element<type> * stack = new Element<type>;
-        for (Element<type> * iter = first; iter != NULL; iter = iter->next)
-        {
-            tmp = new Element<type>;
-            tmp->val = iter->val;
-            stack->next = stack;
-            stack = tmp;
-        }
+        List<type> queue;
+        for (register Element<type> * iter = this->first; iter != NULL; iter = iter -> next)
+            queue.insert(iter->val);
 
+        for (register Element<type> * iter = this->first, * iter_q = queue.first;
+         iter != NULL; iter = iter->next, iter_q = iter_q->next)
+        {
+            iter->val = iter_q->val;
+        }
     }
     /// =============================================================  
 
@@ -152,6 +148,23 @@ public:
             cout << iter->val << " ";
         cout << "\n";
     }
+    /// =============================================================
+
+    /// =============================================================
+    /*
+        DESTRUKTOR
+        Zwalnia całą zarezerwowana pamięć.
+        Iteruje przez całą listę i zwalnia kolejne obszary pamięci.
+    */
+    ~List()
+    {
+        for (register Element<type> * iter = first; iter != NULL;)
+        {
+            tmp = iter;
+            iter = iter->next;
+            delete tmp;
+        }
+    }   
     /// =============================================================
 };
 
