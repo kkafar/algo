@@ -1,5 +1,7 @@
 //Napisać program, który wyznacza ostatnia niezerową cyfra N! Program powinien
 //działać dla N rzędu 1000000.
+
+/// ZŁE ROZWIĄZANIE, NIE DZIAŁA JUŻ DLA N == 15
 #include <iostream>
 
 using namespace std;
