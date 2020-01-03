@@ -9,7 +9,9 @@ należy przekazać wskazanie na pierwszy element listy.
 3. Dana jest niepusta lista, proszę napisać funkcję usuwającą co drugi
 element listy. Do funkcji należy przekazać wskazanie na pierwszy element
 listy.
-
+4. Dana jest niepusta lista reprezentująca liczbę naturalną. Kolejne
+elementy listy przechowują kolejne cyfry. Proszę napisać funkcję
+zwiększającą taką liczbę o 1.
 */
 
 #include <iostream>
@@ -139,6 +141,63 @@ void del_every_oth(node * & first)
 }
 /// ==================================================
 
+/// ==================================================
+/*
+    ZADANIE 4 DODATKOWE
+
+    W zadaniu nie ma sprecyzowanego jak przechowywana jest liczba. 
+    Pzyjmijmy że największą wagę ma cyfra dodana do listy jako pierwsza (ostatnia).
+    Dzięki temu będziemy mogli swobodnie poruszać się po liście. 
+    (Gdyby zrobić na odwrót, dużym problemem byłoby przechodzenie do kolejnych elementów listy)
+*/
+void add_one(node * first)
+{
+    // wskaźnik na pierszy element:
+    node * f = first;
+    // jeżeli lista jest pusta od razu kończymy działanie procedury
+    // założenia zadania nie dopuszczają takiej sytuacji, no ale. 
+    if (first == NULL) return;
+    
+    // lista jest co najmniej jednoelementowa, to zwiększamy ostatnią cyfrę
+    first->val += 1;  
+
+    // reszta to liczba dziesiątek sumy z linijki wyżej
+    int overflow = (first->val) / 10;
+    
+    // a ostatnia cyfra to cyfra jedności first->val
+    first->val %= 10;
+    
+    // przestawiamy się na kolejną cyfrę
+    first = first->next;
+    
+    // dopóki nie skończą nam się cyfry, lub nie będzie już co przenosić  
+    while (first != NULL && overflow != 0)
+    {
+        first->val += overflow; 
+        overflow = (first->val) / 10;
+        first->val %= 10;
+        first = first->next;
+    }
+    
+    // jeżeli skończyły nam się cyfry, a ciągle zostało coś do przenoszenia ==> musimy dodać cyfrę na koniec
+    // naszej liczby. Można tu skorzystać z procedury przygotowanej w zadaniu 1 (dodatkowym). W ramach ćwiczeń
+    // piszemy jeszcze raz: Wiemy że lista jest co najmniej jedno elementowa ==> nie musimy przejmować się przypadkiem gdy jest pusta.
+    if (overflow != 0)
+    {
+        // Znajdujemy adres ostatenigo elementu w liście:
+        node * last = f;
+        while (last->next != NULL)
+            last = last->next;
+        
+        // Jako że to funkcja dodająca jeden do liczby, a i tak już ją wystarczająco na około robimy, to skorzystajmy w końcu z faktu że jedyne co 
+        // może być resztą to 1 i to tylko wtedy gdy przed dodaniem first->val == 9. 
+        node * tmp = new node;
+        tmp->val = 1;
+        last->next = tmp;
+    }
+}
+/// ==================================================
+
 
 void delete_list(node * &first)
 {
@@ -221,6 +280,19 @@ int main()
     push_back(list, 2);
         
     print_list(list);  del_every_oth(list); print_list(list); delete_list(list); print_list(list);
+*/
+
+    // Zadanie 4 (dodatkowe)
+/*
+    node * list = NULL, * list2 = NULL;
+    for (int i = 0; i < 4; ++i)
+        push_front(list, 9);
+
+    push_front(list2, 1); push_front(list2, 9); push_front(list2, 8);
+
+    print_list(list); print_list(list2);
+    add_one(list); add_one(list2);
+    print_list(list); print_list(list2);
 */
     return 0;
 }
