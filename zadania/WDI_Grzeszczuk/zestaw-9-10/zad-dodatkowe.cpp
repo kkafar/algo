@@ -20,6 +20,10 @@ której przekazujemy wskaźnik na początek oraz wartość klucza. Jeżeli
 element o takim kluczu występuje w liście należy go usunąć z listy. Jeżeli
 elementu o zadanym kluczu brak w liście należy element o takim kluczu
 wstawić do listy.
+16. Elementy w liście są uporządkowane według wartości klucza. Proszę
+napisać funkcję usuwającą z listy elementy o nieunikalnym kluczu. Do
+funkcji przekazujemy wskazanie na pierwszy element listy,
+funkcja powinna zwrócić liczbę usuniętych elementów. 
 */
 
 #include <iostream>
@@ -336,6 +340,44 @@ void del_by_key(node * & list, int key_val)
 }
 /// ==================================================
 
+/// ==================================================
+/*
+    ZADANIE 16 DODATKOWE
+    Zgodnie z założeniem w treści zadania, przyjmujemy że ropatrywana lista jest posortowana rosnąco
+    według wartości klucza. 
+
+*/
+int del_rep(node * list)
+{
+    // nie powinno być odwołania "null strzałka", bo  wartość wyrażenia logicznego ewaluowana jest od lewej do prawej 
+    // jeżeli lista jest pusta bądź jednoelementowa to nie może być powtórzonych wartośći ==> return 0
+    if (list == NULL || list->next == NULL) return 0;
+
+    // licznik usuniętych elementów
+    int counter = 0;
+    // w tym miejscu wiemy że lista jest co najmniej dwu elementowa
+    // przechodzimy przez całą listę, szukając kolejno powtarzających się elementów
+    // wykorzystamy wskaźnik 'list' jako iterator
+    node * rep = NULL, * tmp = NULL;
+    while (list != NULL)
+    {
+        rep = list->next;
+
+        while (rep != NULL && rep->val == list->val)
+        {
+            tmp = rep;
+            rep = rep->next;
+            delete tmp;
+            ++counter;
+        }
+        // jeżeli lista się skończyła, to przypiszemy NULL i zakończymy działanie tej pętli while
+        // jeżeli lista się nie skończyła, to przestawimy wskaźnik list na kolejną wartość
+        list->next = rep;
+        list = rep;
+    }
+    return counter;
+}
+/// ==================================================
 
 int main()
 {
@@ -450,6 +492,23 @@ int main()
     del_by_key(list, 4);
     print_list(list);
     delete_list(list);
+*/
+
+    // Zadanie 16 (dodatkowe)
+/*
+    node * list = NULL;
+
+    push_front(list, 1);
+    for (int i = 2; i < 10; ++i)
+    {
+        push_front(list, i);
+        push_front(list, i);
+    }
+    push_front(list, 10);push_front(list, 10);push_front(list, 10);push_front(list, 10); push_front(list, 10);
+
+    print_list(list);
+    cout << del_rep(list) << "\n";
+    print_list(list);
 */
     return 0;
 }
