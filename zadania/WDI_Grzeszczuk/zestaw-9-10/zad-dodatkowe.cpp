@@ -24,6 +24,11 @@ wstawić do listy.
 napisać funkcję usuwającą z listy elementy o nieunikalnym kluczu. Do
 funkcji przekazujemy wskazanie na pierwszy element listy,
 funkcja powinna zwrócić liczbę usuniętych elementów. 
+17. Dana jest lista zawierająca ciąg obustronnie domkniętych przedziałów.
+Krańce przedziałów określa uporządkowana para liczb całkowitych. Proszę
+napisać stosowne deklaracje oraz funkcję redukującą liczbę elementów listy.
+Na przykład lista: [15,19] [2,5] [7,11] [8,12] [5,6] [13,17]
+powinien zostać zredukowany do listy: [13,19] [2,6] [7,12]
 */
 
 #include <iostream>
@@ -379,6 +384,95 @@ int del_rep(node * list)
 }
 /// ==================================================
 
+/// ==================================================
+/*
+    ZADANIE 17 DODATKOWE
+    Idea: 
+    1. Biorę pewien przedział A
+    2. Jadę pętlą przez wszystkie kolejne przedziały I począwszy od A->next
+    3. Jeżeli lepwa lub prawa granica I należy do A, to odpowiednio "mergujemy" DO przedziału A
+    4. Przedział I usuwam z listy. 
+*/
+struct interval
+{
+    int l, r; 
+    interval * next;
+    interval()
+    {
+        next = NULL;
+    }
+};
+
+// sprawdzanie czy przedziały mają część wspólną
+bool intersect(const interval * i1, const interval * i2)
+{
+    if (((i1->r >= i2->l) && (i1->r <= i2->r)) || ((i1->l >= i2->l) && (i1->l <= i2->r))
+    || ((i1->l <= i2->l) && (i1->r >= i2->r)))
+        return true;
+    
+    return false;
+}
+
+/*
+    Zakładam, przynajmniej na razie, że zbiór nie jest pusty;
+    W najgorszym przypadku ta procedura robi się kwadratowa
+*/
+void simplyfy(interval * iv)
+{
+    // lecimy pętlą przez kolejne elementy
+    interval * tmp = NULL, * tracker = NULL;
+    while (iv != NULL)
+    {
+        tracker = iv;
+        tmp = iv->next;
+        while (tmp != NULL)
+        {
+            // wtedy wiadomo że istnieje część wspólna obu przedziałów ==> możemy je połączyć poprzez wzięcie 
+            // bardziej skrajnych współrzędnych
+            if (intersect(tmp, iv))
+            {
+                iv->l = (tmp->l < iv->l) ? (tmp->l) : (iv->l);
+                iv->r = (tmp->r > iv->r) ? (tmp->r) : (iv->r);
+                tracker->next = tmp->next;
+                delete tmp;
+                tmp = tracker->next;
+            }   
+            else
+            {
+                tracker = tmp;
+                tmp = tmp->next;
+            }
+        }
+        iv = iv->next;
+    }
+}
+
+
+/*
+    Procedura wypisująca przedziały, do debugu
+*/
+void print_interval(interval * iter)
+{
+    for (; iter != NULL; iter = iter->next)
+    {
+        cout << "[ " << iter->l << " ; " << iter->r << " ]   ";
+    }
+    cout << "\n";
+}
+/*
+    Musimy też te elementy jakoś wstawić
+*/
+void push_front(interval * & intv, int left, int right)
+{
+    interval * tmp = new interval;
+    tmp->l = left;
+    tmp->r = right;
+    tmp->next = intv;
+    intv = tmp;
+}
+/// ==================================================
+
+
 int main()
 {
     // Zadanie 1 (dodatkowe)
@@ -509,6 +603,16 @@ int main()
     print_list(list);
     cout << del_rep(list) << "\n";
     print_list(list);
+*/
+
+    // Zadanie 17 (dodatkowe)
+/*
+    interval * intv = NULL;
+    push_front(intv, 15, 19); push_front(intv, 2, 5); push_front(intv, 7, 11); push_front(intv, 8, 12);
+    push_front(intv, 5, 6); push_front(intv, 13, 17);
+    print_interval(intv);
+    simplyfy(intv);
+    print_interval(intv);
 */
     return 0;
 }
