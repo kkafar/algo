@@ -1,10 +1,8 @@
 /*
     By K. Kafara
     11.01.2020
-
     Zestaw 9-10, zadanie 21
 21. Dana jest lista, ktora zakończona jest cyklem. Napisać cunkcję, która zwraca liczbę elementów przed cyklem
-
 Możliwe że zwraca o 1 za dużo, ale to już kosmetyka.
 Rozwiązanie jest oparte na fakcie że odl. od miejsca spotkania do pierwszego elementu cyklu przystaje modulo
 długość cyklu do odl. początku listy od miejsca spotkania (tych dwóch wskaźników). Można to dosyć łatwo wykazać.
@@ -143,11 +141,15 @@ int List<T>::ncl()
     int a = mpd / cycle_leng - 1;
     //cout << "a == " << a << "\n";
     tmp = sentinel->next;
+    int ncleng = 0;
     for (int i = 0; i < a; ++i)
         for (int j = 0; j < cycle_leng; ++j)
+        {
             tmp = tmp->next;
+            ++ncleng;
+        }
 
-    int ncleng = 0;
+
     while (tmp != slow)
     {
         tmp = tmp->next;
@@ -164,7 +166,7 @@ int main()
     Element<int> * c = NULL, * last = NULL;
     for (int i = 0; i < 15; ++i)
     {
-        if (i == 6) c = L.push_back(i);
+        if (i == 10) c = L.push_back(i);
         else if (i == 14) last = L.push_back(i);
         else L.push_back(i);
     }
