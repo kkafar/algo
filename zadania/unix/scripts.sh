@@ -26,6 +26,7 @@ fi
                 for user in $users; do
                 		echo $user
                         sum=0
+			# trzeba dodac filtrowanie grepem albo awk zeby bralo tylko procesy uzytkownika $user
                         list=$(ps --no-headers -eo user,rss | awk -F' ' '{print $2}')
                         echo $list
                         
