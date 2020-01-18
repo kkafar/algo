@@ -1,5 +1,17 @@
 #!/bin/bash
 
+#oblicz liczbe procesow ktore zuzyly wiecej niz N sekund procesora
+# proste
+czas=0
+if [[ $# = 0 ]]; then
+	echo "prosze podac czas!"
+	read czas
+else
+	czas=$1
+fi
+	list=$(ps --no-headers -eo times | awk "{ if (\$1 > $czas) print \$1 }" | wc -l)
+	echo $list
+exit 0
 # monitoruj sume RSS dla procesow wszystkich uzytkownikow
 users=""
 sum=0
