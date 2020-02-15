@@ -1,9 +1,29 @@
 #include <iostream>
 #include <string>
 using namespace std;
+
+// Nowsza, zgrabniejsza implementacja.
+// Zasada działania oczywiście taka sama
+/// ===================================
+void insertion_sort(int * array, const int & size)
+{
+    int key; 
+    register int j; 
+    for (int i = 1; i < size; ++i)
+    {
+        key = array[i];
+        j = i - 1;
+        while (j >= 0 && array[j] > key)
+        {
+            array[j + 1] = array[j];
+            --j;
+        }
+        array[j + 1] = key;
+    }
+}
+/// ===================================
  
 /* ALGORYTM SORTOWANIA PRZEZ WSTAWIANIE */
-/// ===================================
 template<class type>
 void sortowanie_przez_wstawianie(type T[], int rozmiar_tablicy)
 {
