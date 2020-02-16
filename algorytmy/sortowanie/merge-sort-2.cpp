@@ -13,6 +13,52 @@ void error(const string& s)
 	cout << s << "\n";
 }
 
+/* Merge Sort */
+/// ===================================================
+void __merge(int * array, int left_beg, int left_end, int right_end)
+{
+	// additional one for sentinel
+	int left_leng = left_end - left_beg + 1, right_leng = right_end - left_end;
+	int left[left_leng + 1], right[right_leng + 1];
+	// copying array's content
+	for (int i = 0; i < left_leng; ++i)
+		left[i] = array[left_beg + i];
+	for (int i = 0; i < right_leng; ++i)
+		right[i] = array[left_end + 1 + i];
+
+	left[left_leng] = right[right_leng] = MAX_INT_32;
+	
+	//__print_array(left, left_leng);
+	//__print_array(right, right_leng);
+
+	for (register int i = 0, j = 0, k = left_beg; k <= right_end; ++k)
+	{
+		if (left[i] <= right[j])
+			array[k] = left[i++];
+
+		else
+			array[k] = right[j++];			 
+	}
+}
+/*
+	\brief sorts given interval(?) of a given array
+
+	\param *array - pointer to first element of to-be-sorted-array
+	\param l      - beginning of the interval
+	\param r 	  - end of the interval (must be in array's range)
+*/
+void __merge_sort(int * array, int l, int r)
+{
+	if (l < r)
+	{
+		int q = (l + r) / 2;
+		__merge_sort(array, l, q);
+		__merge_sort(array, q + 1, r);
+		__merge(array, l, q, r);
+	}
+}
+/// ===================================================
+
 /* ALGORYTM REALIZUJĄCY SCALANIE DWÓCH ZBIORÓW */
 /// ================================================
 // operujemy na podzbiorach sortowanej tablicy, zatem funkcja jako argumenty przyjmuje 
