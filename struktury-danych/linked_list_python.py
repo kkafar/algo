@@ -1,6 +1,3 @@
-from random import random
-
-
 class Node:
     """
         Represents singular node in LinkedList\n
@@ -21,7 +18,12 @@ class LinkedList:
         @attribute last - last object in the list\n\n
         @method push_front(self, key)\n
         @method push_back(self, key)\n
-        @method prin_list(self)
+        @method print(self)\n
+        @method sort(self, beg, end)\n
+        @method pop_front(self)\n
+        @method pop_back(self)\n
+        @method insert(self, key)
+        @method copy(self)
     """
     def __init__(self):
         """
@@ -29,6 +31,7 @@ class LinkedList:
         """
         self.first = None
         self.last = None
+
 
     def push_front(self, key):
         """
@@ -46,6 +49,7 @@ class LinkedList:
             new_node.next = self.first
             self.first = new_node
 
+
     def push_back(self, key):
         """
             Inserts new node in the end of the list\n
@@ -62,16 +66,104 @@ class LinkedList:
             self.last.next = new_node
             self.last = new_node
 
-    def print_list(self):
+
+    def insert(self, key):
+        """
+            Inserts element in to the sorted list\n
+            @param key -  value to insert
+        """
+        if self.first == None:
+            self.first = Node()
+            self.first.val = key
+            self.last = self.first
+
+        else:
+            elem = self.first
+            sen = Node()
+            sen.val = key
+            self.last.next = sen
+            
+            while key > elem.next.val:
+                elem = elem.next
+            
+            if elem == self.last:
+                return
+            
+            elif elem == self.first:
+                self.last.next = None
+                sen.next = self.first
+                self.first = sen
+
+            else:
+                self.last.next = None
+                sen.next = elem.next
+                elem.next = sen
+
+
+    def print(self):
         """
             Prints whole list in format: val0->val1->…->valn->None + new_line
         """
-        elem = self.first
-        while elem != None:
-            print(elem.val, end="->")
-            elem = elem.next
-        print("None")
+        if self.first == None: print("{ }")
+        else:
+            print("{ ", end="")
+            elem = self.first
+            while elem != None:
+                # wiem, że można to zrobić dobrze :O 
+                if elem.next != None:
+                    print(elem.val, end=", ")
+                    elem = elem.next
+                else:
+                    print(elem.val, end=" }\n")
+                    elem = elem.next
 
+
+
+    def pop_front(self):
+        """
+            Removes first element from the list\n
+        """
+        if self.first == None: return
+        
+        else:
+            tmp = self.first
+            self.first = self.first.next
+            del tmp
+    
+
+    def pop_back(self):
+        """
+            Removes last element from the list
+        """
+        if self.first == None: None
+        
+        elif self.first == self.last:
+            tmp = self.first
+            self.first, self.last = None, None
+            del tmp
+        
+        else:
+            elem = self.first
+            
+            while elem.next != self.last:
+                elem = elem.next
+            
+            elem.next = None
+            tmp = self.last
+            self.last = elem
+            del tmp
+        
+
+    def copy(self):
+        copied = LinkedList()
+        tmp = self.first
+        while tmp != None:
+            copied.push_back(tmp.val)
+            tmp = tmp.next
+        return copied
+
+    # MERGE SORT
+    ######################################
     def merge(self, l_beg, l_end, r_end):
         aux_list = LinkedList()
         left = l_beg
@@ -103,7 +195,9 @@ class LinkedList:
 
     def sort(self, beg, end):
         """
-            Sorts list in ascending order using merge sort algorithm
+            Sorts list in ascending order using merge sort algorithm\n
+            @param beg - first elem. of the to-be-sorted list (or first elem. of the fragment of the to-be-sorted-list)\n
+            @param end - last elem of the to-be-sorted list (or last elem. of the fragment of the to-be-sorted list)
         """
         if beg != end:
             # Jak wyznaczyć "środek" tego przedziału [beg, end]????
@@ -128,21 +222,4 @@ class LinkedList:
             self.sort(it.next, end)
 
             self.merge(beg, it, end)
-
-
-if __name__ == '__main__':
-    List = LinkedList()
-
-    for i in range(10):
-        List.push_front(int(random() * 100))
-
-    List.print_list()
-    # print(List.first.val, List.last.val)
-    
-    List.sort(List.first, List.last)
-    List.print_list()
-
-    
-
-
-    
+    ######################################
