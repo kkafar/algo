@@ -13,7 +13,7 @@ class Node:
 
 class LinkedList:
     """
-        "Two way" linked list\n
+        "One way" linked list\n
         @attribute first - first object in the list\n
         @attribute last - last object in the list\n\n
         @method push_front(self, key)\n
@@ -69,6 +69,61 @@ class LinkedList:
             elem = elem.next
         print("None")
 
+    def merge(self, l_beg, l_end, r_end):
+        aux_list = LinkedList()
+        left = l_beg
+        right = l_end.next
+        
+        while left != l_end.next and right != r_end.next:
+            if left.val <= right.val: 
+                aux_list.push_back(left.val)
+                left = left.next
+            else:
+                aux_list.push_back(right.val)
+                right = right.next
+
+        while left != l_end.next:
+            aux_list.push_back(left.val)
+            left = left.next
+        
+        while right != r_end.next:
+            aux_list.push_back(right.val)
+            right = right.next
+            
+        left = l_beg
+        aux = aux_list.first
+        while left != r_end.next:
+            left.val = aux.val
+            left = left.next
+            aux = aux.next
+
+
+
+    def sort(self, beg, end):
+        """
+            Sorts list in ascending order using merge sort algorithm
+        """
+        if beg != end:
+            it = beg
+            count = 0
+            
+            while it != end:
+                it = it.next
+                count += 1
+            
+            count = count // 2
+            new_count = 0
+            it = beg
+           
+            while new_count < count:
+                it = it.next
+                new_count += 1
+            
+            self.sort(beg, it)
+            self.sort(it.next, end)
+
+            self.merge(beg, it, end)
+
 
 if __name__ == '__main__':
     List = LinkedList()
@@ -77,15 +132,10 @@ if __name__ == '__main__':
         List.push_front(i)
 
     List.print_list()
-    print(List.first.val, List.last.val)
-
-    List2 = LinkedList()
-
-    for i in range(10):
-        List2.push_back(i)
-
-    List2.print_list()
-    print(List2.first.val, List2.last.val)
+    # print(List.first.val, List.last.val)
+    
+    List.sort(List.first, List.last)
+    List.print_list()
 
     
 
