@@ -1,3 +1,6 @@
+from random import random
+
+
 class Node:
     """
         Represents singular node in LinkedList\n
@@ -98,15 +101,17 @@ class LinkedList:
             aux = aux.next
 
 
-
     def sort(self, beg, end):
         """
             Sorts list in ascending order using merge sort algorithm
         """
         if beg != end:
+            # Jak wyznaczyć "środek" tego przedziału [beg, end]????
+            # Albo jak to robić inaczej po prostu, bo wyznaczanie środka w ten sposób 
+            # to jest wręcz złe rozwiązanie
             it = beg
             count = 0
-            
+
             while it != end:
                 it = it.next
                 count += 1
@@ -118,7 +123,7 @@ class LinkedList:
             while new_count < count:
                 it = it.next
                 new_count += 1
-            
+            ##############################################
             self.sort(beg, it)
             self.sort(it.next, end)
 
@@ -129,7 +134,7 @@ if __name__ == '__main__':
     List = LinkedList()
 
     for i in range(10):
-        List.push_front(i)
+        List.push_front(int(random() * 100))
 
     List.print_list()
     # print(List.first.val, List.last.val)
