@@ -1,13 +1,10 @@
-/*
-	Quicksort!  
-*/
 #include <iostream>
-#include <time.h>
+#include <stdio.h>
 
 #include "/home/kkafara/workspace/include/my-utility.h"
 using namespace std;
 
-const int SIZE = 9;
+const int SIZE = 8;
 
 void sumuj_wiersze(int ** arr, int size)
 {
@@ -54,6 +51,14 @@ int main()
 		cout << arr[i] << "  <-- adres pod ktorym znajduje sie 1. el. wiersza " << i << "\n" 
 		<< (arr + i) << "  <-- adres pod ktorym znajduje sie wskaznik na 1. el. wiersza " << i << "\n" 
 		<< &arr[i] << "  <-- adres pod ktorym znajduje sie wskaznik na 1. el. wiersza " << i << "\n\n";
+
+	// wypisywanie tablicy 2d wskaznikami
+	for (int i = 0; i < SIZE; ++i)
+	{
+		for (int j = 0; j < SIZE; ++j)
+			printf("%-3d ", *(*(arr + i) + j));
+		printf("\n");
+	}
 	
 	return 0; 
 }
