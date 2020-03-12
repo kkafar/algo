@@ -1,0 +1,35 @@
+/**
+ * K. Kafara
+ */
+
+#include <stdio.h>
+
+
+int main()
+{ 
+    int n;
+
+    scanf("%d", &n);
+
+    int M[n][n];
+
+    int is_tri = 1;
+
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            scanf("%d", &M[i][j]);
+            if ((i < j) && M[i][j] != 0)
+            {
+                is_tri = 0;
+                break;
+            }
+        }
+        if (is_tri == 0) break;
+    }
+
+    if (is_tri == 0)    printf("NO");
+    else                printf("YES");
+    return 0;
+}
