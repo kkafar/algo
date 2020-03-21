@@ -97,34 +97,41 @@ void merge_sort(int * A, int size)
 	// jeżeli długość tablicy jest <= 1 to znaczy że nie ma co sortować, więc przerywamy działanie procedury
 	if (size <= 1) return;
 
+	// ustawiamy krok na 2, bo na początku sortujemy po 2 elementy 
 	int krok = 2; 
+	// indeksy lewego i prawego końca przedziału sortowanego w danej iteracji pętli poniżej 
 	int lewy, prawy;
 
 	while (krok <= size)
 	{
+		// za każdy razem, pierwszym sortowanym fragmentem jest: "od początku (czyli od 0), do (2^k - 1) elementu"
 		lewy = 0;
 		prawy = krok - 1;
-
+		
+		// bierzemy kolejne przedziału długości potęgi liczby 2, dopóki lewa krawędź obliczonego przedziału mieści się w tablicy
 		while (lewy < (size - 1))
 		{
+			// scalamy rozważany fragment tablicy
 			merge(A, lewy, (lewy + prawy) / 2, prawy);
+			// przesuwamy się na kolejny przedział
 			lewy += krok;
 			prawy += krok;
 			
+			// jeżeli indeks prawego końca przedziału znalazł się poza tablicą, to przesuwamy go na ostatni element
 			if (prawy >= size)
 				prawy = size - 1;
-			
 		}
-
+		// powiększamy krok, aby w następnej iteracji rozważać 2 razy większe przedziały
 		krok *= 2;
 	}
+	// zauważmy, ze tablica w ostatniej iteracji pętli powyżej była podzielona na 2 fragmenty, które jeszcze musimy scalić: 
 	merge(A, 0, (krok / 2) - 1, size - 1);
 }
 
 
 int main()
 {
-	const int SIZE = 12;
+	const int SIZE = 12; 
 	int A[] = {2, 1, 4, 7, 2, 5, 2, 22, 18, 99, 1001, 33};
 
 	merge_sort(A, SIZE);
