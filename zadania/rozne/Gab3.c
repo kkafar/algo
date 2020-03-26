@@ -41,6 +41,11 @@ int main(void)
 
     for (int i = 0; i < ROW; ++i)
         wypisz_i(array1[i], array1[i] + COL);
+
+    for (int i = 0; i < ROW; ++i)
+        free(array1[i]);
+    
+    free(array1);
     
     return 0;
-}
+}   
