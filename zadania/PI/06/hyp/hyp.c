@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// #include "utility_c.h"
+
 struct Node
 {
     int key;
@@ -82,37 +84,46 @@ typedef struct Vector Vector;
 
 int solution(Vector * vec, int n, int b, int e)
 {
+    if (b == e) return 1;
     // algorytm na bazie bfs'a
 
     // current vertex;
     int cv;
 
-    // tablica odwiedzin, tutaj a nie w struct Node, bo łatwiej zerować.
+    // tablica odwiedzin
     int visited[n];
     for (int i = 0; i < n; ++i)
         *(visited + i) = 0;
 
+    // PrintTabInt(visited, n);
+    
+    
+
     // kolejka i zmienne do obsługi
     // wirzchołków jest n, więc większa kolejka nie jest potrzebna
-    int queue[n];
+    int queue[n + 1];
     int p = 0, k = 0;
 
     queue[k] = b;
+    visited[b] = 1;
 
     while (p <= k)
     {
         // pobieramy wierzchołek z kolejki 
         cv = queue[p++];
-        visited[cv] = 1;
+        //printf("Visiting: %d\n", cv);
+        if (cv == e) return 1;
 
-        // przeglądamy sąsiadów cvi jezeli nie byli odwiedzeni to dodajemy ich do kolejki, bądź zwracamy true (1), jeżeli 
+
+        // przeglądamy sąsiadów cv,  jezeli nie byli odwiedzeni to dodajemy ich do kolejki, bądź zwracamy true (1), jeżeli 
         // szukanym wierzchołkiem jest jeden z sąsiadów
         for (struct Node * tmp = vec[cv].snt->next; tmp != NULL; tmp = tmp->next)
         {
-            if (tmp->key == e) return 1;
+            // if (tmp->key == e) return 1;
             if (visited[tmp->key] == 0)
             {
                 queue[++k] = tmp->key;
+                visited[tmp->key] = 1;
             }
         }
     }
@@ -121,7 +132,6 @@ int solution(Vector * vec, int n, int b, int e)
     return 0;
 
 }
-
 
 
 int main(void)
@@ -137,7 +147,8 @@ int main(void)
     for (int i = 0; i < k; ++i)
     {
         scanf("%d %d", &b, &e);
-        // dodajemy podwójną krawędź, bo graf jest nieskierowany
+        // dodajemy podwójną krawędź, bo graf jest nieskierowany (jeżeli potraktujemy go jako graf skierowany,
+        // to przykład wtedy nie ma sensu)
         addNode(graph + b, e);
         addNode(graph + e, b);
     }
@@ -147,8 +158,7 @@ int main(void)
         printf("%d    ", i);
         printVector(graph + i);
     }
- */
-
+*/
     for (int i = 0; i < p; ++i)
     {
         scanf("%d %d", &b, &e);
@@ -164,8 +174,7 @@ int main(void)
         printf("%d    ", i);
         printVector(graph + i);
     }
- */
-
+*/
     for (int i = 0; i < n; ++i)
         delVector(graph + i);
     
