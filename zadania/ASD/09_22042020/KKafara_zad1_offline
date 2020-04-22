@@ -113,7 +113,7 @@ inf = 10000000 # symbolizuje nieskończoność
 
 def path_cost( graph, s, t ):
 # policz koszt trasy
-    n = len(G)
+    n = len(graph)
 
     # tablica kosztow dojscia do poszczegolnych wierzcholkow
     cost = [inf] * n   
