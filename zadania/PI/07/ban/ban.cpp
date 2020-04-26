@@ -22,11 +22,11 @@ struct Graph
 
     struct Vertex : std::vector<Edge>   
     {
-        bool visited;
+        int visit_count;
         int distance;
 
         Vertex() 
-        : visited(false), distance(MAX_INT_32)
+        : visit_count(0), distance(MAX_INT_32)
         {}
     };
     
@@ -63,7 +63,7 @@ struct Graph
     {
         for (std::vector<Vertex>::iterator v = graph.begin(); v != graph.end(); ++v)
         {
-            v->visited = false;
+            v->visit_count = 0;
             v->distance = MAX_INT_32;
         }
     }
@@ -73,7 +73,7 @@ struct Graph
         std::queue<int> q;
 
         q.push(s);
-        graph[s].visited = true;
+        // graph[s].visit_count++;
         graph[s].distance = 0;
 
         int curr_ver, dist; 
@@ -82,21 +82,30 @@ struct Graph
             curr_ver = q.front();
             q.pop();
 
-            graph[curr_ver].visited = true;
+            graph[curr_ver].visit_count++;
 
             for (std::vector<Edge>::iterator ed = graph[curr_ver].begin(); ed != graph[curr_ver].end(); ++ed)
             {
-                if (graph[ed->end].visited == false)
+                if (graph[ed->end].visit_count <= 1)
                 {
                     dist = graph[curr_ver].distance + ed->len;
 
                     if (dist < graph[ed->end].distance)
+                    {
                         graph[ed->end].distance = dist;
+                        if (graph[ed->end].visit_count == 1 && dist < 0) 
+                            return MIN_INT_32;
+                    }
+                        
 
                     q.push(ed->end);
                 }
             }
         }
+/*         for (std::vector<Vertex>::iterator v = graph.begin(); v != graph.end(); ++v)
+            printf("%d ", v->distance);
+        
+        printf("\n"); */
         return graph[t].distance;
     }   
 
@@ -118,17 +127,27 @@ struct Graph
         if (min_cost1 == MAX_INT_32)
             printf("NO\n");
 
+
         else
         {
-            reset();
-
-            min_cost2 = dijkstra(t, s);
-
-            if (min_cost2 == MAX_INT_32 || min_cost1 + min_cost2 >= 0)
-                printf("%d\n", min_cost1);
-            
-            else if (min_cost1 + min_cost2 < 0)
+            if (min_cost1 == MIN_INT_32)
                 printf("CYCLE\n");
+
+            else
+            {
+                reset();
+
+                min_cost2 = dijkstra(t, s);
+
+                if (min_cost2 == MAX_INT_32 || min_cost1 + min_cost2 >= 0)
+                    printf("%d\n", min_cost1);
+                
+                else
+                {
+                    if (min_cost1 + min_cost2 < 0)
+                        printf("CYCLE %d\n", min_cost1 + min_cost2);
+                }
+            }
         }        
     }
 };
