@@ -40,6 +40,12 @@ struct Graph
     {
         graph[b].push_back(Edge(e, l));
     }
+
+    void addEdgeU(int b, int e, int l = 1)
+    {
+        graph[b].push_back(Edge(e, l));
+        graph[e].push_back(Edge(b, l));
+    }
     void print()
     {
         for (int i = 0; i < size; ++i)
@@ -82,7 +88,7 @@ struct Graph
             }
         }
         return graph[t].distance;
-    }
+    }   
 };
 
 int main()
@@ -99,7 +105,7 @@ int main()
     {
         // printf("%d\n", i);
         scanf("%d %d %d", &b, &e, &l);
-        g.addEdgeD(b, e, l);
+        g.addEdgeU(b, e, l);
     }
 
     printf("%d\n", g.dijkstra(s, t));
