@@ -1,4 +1,7 @@
 class GraphAdjMatrix:
+	'''
+	@brief Reprezentacja grafu poprzez listę sąsiedztwa\n
+	Dostępne metody: add_dir_edge(beg, end), add_undir_edge(beg, end), remove_dir_edge(beg, end), remove_undir_edge(beg, end), printg() '''
 	def __init__(self, size):
 		self.size = size
 		self.graph = [ [0] * size for i in range(size) ] 
