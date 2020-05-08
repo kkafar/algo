@@ -26,7 +26,7 @@ class MaxPriorityQueue:
 
     def push(self, obj, prior):
         '''
-        @brief Dodajem objekt @param obj do kolejki z priorytetem @param prior '''
+        @brief Dodaje objekt @param obj do kolejki z priorytetem @param prior '''
         index = self.size
         # jeżeli jest wymagane poszerzenie listy
         if self.size == len(self.queue):
@@ -113,7 +113,7 @@ class MinPriorityQueue:
 
     def push(self, obj, prior):
         '''
-        @brief Dodajem objekt @param obj do kolejki z priorytetem @param prior '''
+        @brief Dodaje objekt @param obj do kolejki z priorytetem @param prior '''
         index = self.size
         # jeżeli jest wymagane poszerzenie listy
         if self.size == len(self.queue):
@@ -162,7 +162,7 @@ class MinPriorityQueue:
 
     def pop(self):
         '''
-        @brief Usuwa element z najwyższym priorytetem z kolejki. '''
+        @brief Usuwa element z najmniejszym priorytetem z kolejki. '''
         self.size -= 1
         self.queue[0], self.queue[self.size] = self.queue[self.size], self.queue[0]
         self.heapify(0)
