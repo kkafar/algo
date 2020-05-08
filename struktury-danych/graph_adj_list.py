@@ -77,11 +77,11 @@ class GraphAdjList:
             self.graph[i].visited = False
             self.graph[i].parent = -1
         
-    def add_dir_edges(self, b, e):
+    def add_dir_edge(self, b, e):
         self.graph[b].edges.append(self.Edge(e))
 
     # Sciągamy komentarz gdy rozważamy graf nieskierowany
-    '''def add_undir_edges(self, b, e):
+    '''def add_undir_edge(self, b, e):
         self.graph[b].edges.append(self.Edge(e))
         self.graph[e].edges.append(self.Edge(b))
         # TODO:  obliczanie na bieżąco indeksu pod którym znajduje się krawędź przeciwna
