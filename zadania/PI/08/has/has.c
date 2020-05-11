@@ -110,11 +110,20 @@ void dll_print(DLL * dll)
     }
 }
 
+char * get_str(char * str, int p, int q)
+{
+    char * ret_str = (char *) malloc(sizeof(char) * (q - p + 1));
+    for (int i = p, i <= q; ++i)
+        ret_str[i - p] = str[i];
+
+    return ret_str;
+}
+
 int main(void)
 {
     int n, k, z;
     char query_type, ch;
-    char query[30];
+    char query[30], * name, * number
     int name_end, number_end, iter;
     scanf("%d", &z);
 
@@ -130,12 +139,16 @@ int main(void)
 
         for (int j = 0; j < k; ++j)
         {
-            iter = 0;
+            iter = 2;
             fgets(query, 30, stdin);
             query_type = query[0];
             if (query_type == 'a')
             {
+                while (query[iter] != ' ')
+                    ++iter;
                 
+                name = get_str(query, 2, iter);
+                // podobnie zrobić z numerem
             }
             else if (query_type == 'r')
             {
