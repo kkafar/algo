@@ -72,10 +72,10 @@ class GraphAdjList:
 
         # V razy dokonujemy relaksacji każdej z E krwędzi
         for i in range(self.rank):  
-            for j in range(self.size): 
+            for j in range(len(edge_list)): 
                 edge_list[j][2] 
-                print(type(edge_list[j][2]))
-                print(edge_list[j][2])
+                #print(type(edge_list[j][2]))
+                #print(edge_list[j][2])
                 # jaki sposób tam jest błąd!?!?!? Typy się zgadzają TODO!!!!
                 distance = self.graph[edge_list[j][0]].distance + edge_list[j][2]
                 if self.graph[edge_list[j][1]].distance > distance:
