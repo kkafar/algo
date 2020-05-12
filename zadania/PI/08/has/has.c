@@ -1,166 +1,213 @@
+/**
+ * K. Kafara
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
+///////////////////////////////////////////////////////////////////////
+/// Węzeł listy
+///////////////////////////////////////////////////////////////////////
 typedef struct Node
 {
-    char * name;
-    char * number;
+    char * name, * number;
     struct Node * next;
-    struct Node * prev;
 } Node;
-
-typedef struct DoublyLinkedList
+///////////////////////////////////////////////////////////////////////
+/// Obsługa węzła
+///////////////////////////////////////////////////////////////////////
+Node * get_new_node(char * name, char * number, Node * next)
 {
-    Node * first; //* last;
-} DLL;
-
-
-Node * dll_new_node()
-{
-    return ((Node *) malloc(sizeof(Node)));
-}
-
-void dll_init(DLL * dll)
-{
-    dll->first = NULL;
-    // dll->last = NULL;
-}
-
-void dll_push_front(DLL * dll, char * name, char * number)
-{
-    Node * new_node = dll_new_node();
+    Node * new_node = (Node *) malloc(sizeof(Node));
     new_node->name = name;
     new_node->number = number;
-    if (dll->first == NULL)
-    {
-        new_node->next = NULL;
-        new_node->prev = NULL;
-        dll->first = new_node;
-        // dll->last = new_node;       
-    }
-/*     else if (dll->first == dll->last)
-    {
-        new_node->next = dll->first;
-
-    } */
-    else
-    {
-        new_node->next = dll->first;
-        new_node->prev = NULL;
-        dll->first->prev = new_node;
-        dll->first = new_node;
-    }
+    new_node->next = next;
+    return new_node;
 }
-
-int dll_delete_node(DLL * dll, char * name)
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+/// Lista jednokierunkowa
+///////////////////////////////////////////////////////////////////////
+typedef struct SinglyLinkedList
 {
-    Node * tmp = dll->first;
-    while (tmp != NULL && tmp->name != name)
-    {
-        tmp = tmp->next;
-    }
-    if (tmp == NULL)
-    {
-        return 1;
-    }
-    else
-    {
-        if (tmp == dll->first)
-        {
-            dll->first = dll->first->next;
-            dll->first->prev = NULL;
-            free(tmp);
-        }
-        else if (tmp->next == NULL)
-        {
-            tmp->prev->next = NULL;
-            free(tmp);
-        }
-        
-        else
-        {
-            tmp->next->prev = tmp->prev;
-            tmp->prev->next = tmp->next;
-            free(tmp);
-        }
-        
-        return 0;
-    }
-    
+    // wartownik
+    Node * snt;
+} sl_list;
+///////////////////////////////////////////////////////////////////////
+/// Obsługa listy
+///////////////////////////////////////////////////////////////////////
+void init_list(sl_list * list)
+{
+    list->snt = get_new_node("SNT", "NULL", NULL);
 }
-
-void dll_delete(DLL * dll)
+///////////////////////////////////////////////////////////////////////
+void push_front(sl_list * list, char * name, char * number)
 {
-    Node * tmp = dll->first;
-    while (tmp != NULL)
+    Node * new_node = get_new_node(name, number, list->snt->next);
+    list->snt->next = new_node;
+}
+///////////////////////////////////////////////////////////////////////
+void delete_list(sl_list * list)
+{
+    Node * tmp;
+    while (list->snt != NULL)
     {
-        dll->first = dll->first->next;
+        tmp = list->snt;
+        list->snt = list->snt->next;
         free(tmp);
-        tmp = dll->first;
     }
 }
-
-void dll_print(DLL * dll)
+///////////////////////////////////////////////////////////////////////
+int delete_node(sl_list * list, char * name)
 {
-    Node * tmp = dll->first;
+    Node * tmp = list->snt->next, * tracker = list->snt;
     while (tmp != NULL)
     {
-        printf("%s %s\n", tmp->name, tmp->number);
+        if (*(tmp->name) == *name)
+        {
+            // printf("Found name: %s\n", name);
+            tracker->next = tmp->next;
+            free(tmp);
+            return 1;
+        }
+        tracker = tmp;
         tmp = tmp->next;
     }
+    // Nie znaleziono takiego elementu
+    return 0;
 }
-
-char * get_str(char * str, int p, int q)
+///////////////////////////////////////////////////////////////////////
+char * get_number(sl_list * list, char * name, int * number_len)
 {
-    char * ret_str = (char *) malloc(sizeof(char) * (q - p + 1));
-    for (int i = p, i <= q; ++i)
-        ret_str[i - p] = str[i];
-
-    return ret_str;
+    Node * tmp = list->snt->next;
+    while (tmp != NULL)
+    {
+        if (*(tmp->name) == *name)
+        {
+            *number_len = sizeof(tmp->number) / sizeof(char);
+            return tmp->number;
+        }
+        tmp = tmp->next;
+    }
+    return (char *)(NULL);
 }
+///////////////////////////////////////////////////////////////////////
+void print_list(sl_list * list)
+{
+    printf("List starting at %p\n", list->snt->next);
+    Node * tmp = list->snt->next;
+    while (tmp != NULL)
+    {
+        printf("(%s, %s) ", tmp->name, tmp->number);
+        tmp = tmp->next;
+    }
+    printf("\n");
+}
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+/// Funkcje pomocnicze
+///////////////////////////////////////////////////////////////////////
+char * getstr(char * str, int p, int q)
+{
+    // printf("getstr rezerwuje %ld bajtow pamieci\n", (q - p + 1) * sizeof(char));
+    char * retstr = (char *) malloc(sizeof(char) * (q - p + 1));
+    for (int i = p; i <= q; ++i)
+        *(retstr + i - p) = *(str + i);
+    
+    return retstr;
+}
+///////////////////////////////////////////////////////////////////////
+int gethash(char * name, int len, int mod)
+{
+    int hash = 0;
+    for (int i = 0; i < len; ++i)
+        hash += (int)(*(name + i));
 
+    return (hash % mod);
+}
+///////////////////////////////////////////////////////////////////////
 int main(void)
 {
-    int n, k, z;
-    char query_type, ch;
-    char query[30], * name, * number
-    int name_end, number_end, iter;
+    int z, n, k, name_end, number_end, number_len;
+    char query[65], * name, * number;
+
+
     scanf("%d", &z);
 
     for (int i = 0; i < z; ++i)
     {
         scanf("%d", &n);
+
         scanf("%d", &k);
 
-        while ((getchar()) != '\n');
-        DLL dictionary[n];
+        sl_list hash_table[n];  
         for (int j = 0; j < n; ++j)
-            dll_init(dictionary + j);
+            init_list(hash_table + j);
+
+        // opróżnamy buffer (or ?) przed fgets'em;
+        while ((getchar()) != '\n');
 
         for (int j = 0; j < k; ++j)
         {
-            iter = 2;
-            fgets(query, 30, stdin);
-            query_type = query[0];
-            if (query_type == 'a')
+            // printf("j: %d\n", j);
+            fgets(query, 65, stdin);
+            // printf("QUERY: %s", query);
+            if (query[0] == 'a')
             {
-                while (query[iter] != ' ')
-                    ++iter;
+                // printf("Detected query type %c\n", query[0]);
+                name_end = 1;
+                while (query[name_end + 1] != ' ')
+                    ++name_end;
                 
-                name = get_str(query, 2, iter);
-                // podobnie zrobić z numerem
+                name = getstr(query, 2, name_end);
+
+                number_end = name_end + 1;
+                while (query[number_end + 1] != '\n' && query[number_end + 1] != ' ')
+                    ++number_end;
+                
+                number = getstr(query, name_end + 2, number_end);
+                // printf("%d %d\n", name_end + 2, number_end);
+                // printf("NAME: %s NUMBER: %s\n", name, number);
+
+                push_front(hash_table + gethash(name, name_end - 1, n), name, number);
             }
-            else if (query_type == 'r')
+            else if (query[0] == 'r')
             {
-                // TODO
+                name_end = 1;
+                while (query[name_end + 1] != ' ' && query[name_end + 1] != '\n')
+                    ++name_end;
+                
+                name = getstr(query, 2, name_end);  
+                // printf("QUERY: %c, HASH: %d\n", query[0], gethash(name, name_end - 1, n));
+                if (delete_node(hash_table + gethash(name, name_end - 1, n), name) == 0)
+                    putchar('\n');     
+
+                free(name);    
             }
             else
             {
-                // TODO
+                name_end = 1;
+                while (query[name_end + 1] != ' ' && query[name_end + 1] != '\n')
+                    ++name_end;
+
+                name = getstr(query, 2, name_end);
+                number = get_number(hash_table + gethash(name, name_end - 1, n), name, &number_len);
+                // printf("NUMBER: %s\n", number);
+                if (number == NULL) putchar('\n');
+                else
+                {
+                    for (int t = 0; t < number_len; ++t)
+                    {
+                        putchar(number[t]);
+                    } 
+                    putchar('\n');
+                }
             }
             
         }
-    }
-
+        for (int j = 0; j < n; ++j)
+            delete_list(hash_table + j);
+        // printf("Exiting internal for\n");
+    } 
     return 0;
 }
