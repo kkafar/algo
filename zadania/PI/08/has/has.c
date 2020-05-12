@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 ///////////////////////////////////////////////////////////////////////
 /// Węzeł listy
@@ -19,7 +20,7 @@
 typedef struct Node
 {
     char * name, * number;
-    int number_len;
+    int number_len, name_len;
     struct Node * next;
 } Node;
 ///////////////////////////////////////////////////////////////////////
@@ -42,6 +43,7 @@ Node * get_new_node(char * name, char * number, int name_len, int number_len, No
     
     new_node->next = next;
     new_node->number_len = number_len;
+    new_node->name_len = name_len;
     return new_node;
 }
 ///////////////////////////////////////////////////////////////////////
@@ -80,12 +82,26 @@ void delete_list(sl_list * list)
     }
 }
 ///////////////////////////////////////////////////////////////////////
-int delete_node(sl_list * list, char * name)
+int str_eq(char * str1, char * str2, int len1, int len2)
+{
+    if (len1 == len2)
+    {
+        for (int i = 0; i < len1; ++i)
+        {
+            if (*(str1 + i) != *(str2 + i))
+                return 0;
+        }
+        return 1;
+    }
+    return 0;
+}
+///////////////////////////////////////////////////////////////////////
+int delete_node(sl_list * list, char * name, int name_len)
 {
     Node * tmp = list->snt->next, * tracker = list->snt;
     while (tmp != NULL)
     {
-        if (*(tmp->name) == *name)
+        if (str_eq(tmp->name, name, tmp->name_len, name_len) == 1)
         {
             // printf("Found name: %s\n", name);
             tracker->next = tmp->next;
@@ -104,13 +120,14 @@ int delete_node(sl_list * list, char * name)
     return 0;
 }
 ///////////////////////////////////////////////////////////////////////
-char * get_number(sl_list * list, char * name, int * number_len)
+char * get_number(sl_list * list, char * name, int name_len, int * number_len)
 {
     Node * tmp = list->snt->next;
     while (tmp != NULL)
     {
-        if (*(tmp->name) == *name)
+        if (str_eq(tmp->name, name, tmp->name_len, name_len) == 1)
         {   
+            // printf("Stwierdzilem ze %s == %s\n", tmp->name, name);
             *number_len = tmp->number_len;
             // printf("get_number: Zwracam obszar %p - %p  (number_len == %d)\n", tmp->number, tmp->number + tmp->number_len, *number_len);
             return tmp->number;
@@ -212,7 +229,7 @@ int main(void)
                 
                 name = getstr(query, 2, name_end);  
                 // printf("QUERY: %c, HASH: %d\n", query[0], gethash(name, name_end - 1, n));
-                if (delete_node(hash_table + gethash(name, name_end - 1, n), name) == 0)
+                if (delete_node(hash_table + gethash(name, name_end - 1, n), name, name_end - 1) == 0)
                     putchar('\n');     
 
                 // printf("(r) Zwalniam name %p\n", name);
@@ -225,7 +242,7 @@ int main(void)
                     ++name_end;
 
                 name = getstr(query, 2, name_end);
-                number = get_number(hash_table + gethash(name, name_end - 1, n), name, &number_len);
+                number = get_number(hash_table + gethash(name, name_end - 1, n), name, name_end - 1,&number_len);
                 // printf("NUMBER: %s\n", number);
                 if (number == NULL) putchar('\n');
                 else
