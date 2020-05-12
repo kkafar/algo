@@ -1,5 +1,13 @@
 /**
  * K. Kafara
+ * Pytanie 1
+ * * Jak to zorganizować, żeby nie było żadnego wyniku pamięci?
+ * Pytanie 2
+ * * Dlaczego valgrind wypisuje błędy przy wypisywaniu stringów printf'em?
+ * 
+ * 
+ * Odp. 1
+ * Przy dodawaniu elementu do listy, zamiast przekazywa wskaźniki, będziemy kopiować wartość. 
  */
 
 #include <stdio.h>
@@ -11,17 +19,29 @@
 typedef struct Node
 {
     char * name, * number;
+    int number_len;
     struct Node * next;
 } Node;
 ///////////////////////////////////////////////////////////////////////
 /// Obsługa węzła
 ///////////////////////////////////////////////////////////////////////
-Node * get_new_node(char * name, char * number, Node * next)
+Node * get_new_node(char * name, char * number, int name_len, int number_len, Node * next)
 {
     Node * new_node = (Node *) malloc(sizeof(Node));
-    new_node->name = name;
-    new_node->number = number;
+    // printf("Rezerwuje wezel\nObszar: %p - %p\n", new_node, new_node + sizeof(Node));   
+    new_node->name = (char *) malloc(sizeof(char) * name_len);
+    // printf("Rezerwuje miejsce na pole name\nObszar %p - %p\n", new_node->name, new_node->name + sizeof(char) * name_len);
+    new_node->number = (char *) malloc(sizeof(char) * number_len);
+    // printf("Rezerwuje miejsce na pole number\nObszar %p - %p\n", new_node->number, new_node->number + sizeof(char) * number_len);
+    
+    for (int i = 0; i < name_len; ++i)
+        *(new_node->name + i) = *(name + i);
+
+    for (int i = 0; i < number_len; ++i)
+        *(new_node->number + i) = *(number + i);
+    
     new_node->next = next;
+    new_node->number_len = number_len;
     return new_node;
 }
 ///////////////////////////////////////////////////////////////////////
@@ -38,12 +58,12 @@ typedef struct SinglyLinkedList
 ///////////////////////////////////////////////////////////////////////
 void init_list(sl_list * list)
 {
-    list->snt = get_new_node("SNT", "NULL", NULL);
+    list->snt = get_new_node("", "", 0, 0, NULL);
 }
 ///////////////////////////////////////////////////////////////////////
-void push_front(sl_list * list, char * name, char * number)
+void push_front(sl_list * list, char * name, char * number, int name_len, int number_len)
 {
-    Node * new_node = get_new_node(name, number, list->snt->next);
+    Node * new_node = get_new_node(name, number, name_len, number_len, list->snt->next);
     list->snt->next = new_node;
 }
 ///////////////////////////////////////////////////////////////////////
@@ -54,6 +74,8 @@ void delete_list(sl_list * list)
     {
         tmp = list->snt;
         list->snt = list->snt->next;
+        free(tmp->name);
+        free(tmp->number);
         free(tmp);
     }
 }
@@ -67,6 +89,11 @@ int delete_node(sl_list * list, char * name)
         {
             // printf("Found name: %s\n", name);
             tracker->next = tmp->next;
+            // printf("del_node: Zwalniam pole name od %p\n", tmp->name);
+            free(tmp->name);
+            // printf("del_node: Zwalniam pole number od %p\n", tmp->number);
+            free(tmp->number);
+            // printf("del_node: Zwalniam wezel od %p\n", tmp);
             free(tmp);
             return 1;
         }
@@ -83,8 +110,9 @@ char * get_number(sl_list * list, char * name, int * number_len)
     while (tmp != NULL)
     {
         if (*(tmp->name) == *name)
-        {
-            *number_len = sizeof(tmp->number) / sizeof(char);
+        {   
+            *number_len = tmp->number_len;
+            // printf("get_number: Zwracam obszar %p - %p  (number_len == %d)\n", tmp->number, tmp->number + tmp->number_len, *number_len);
             return tmp->number;
         }
         tmp = tmp->next;
@@ -94,7 +122,7 @@ char * get_number(sl_list * list, char * name, int * number_len)
 ///////////////////////////////////////////////////////////////////////
 void print_list(sl_list * list)
 {
-    printf("List starting at %p\n", list->snt->next);
+    // printf("List starting at %p\n", list->snt->next);
     Node * tmp = list->snt->next;
     while (tmp != NULL)
     {
@@ -111,6 +139,7 @@ char * getstr(char * str, int p, int q)
 {
     // printf("getstr rezerwuje %ld bajtow pamieci\n", (q - p + 1) * sizeof(char));
     char * retstr = (char *) malloc(sizeof(char) * (q - p + 1));
+    // printf("getstr: rezerwuje %p - %p\n", retstr, retstr + sizeof(char) * (q - p + 1));
     for (int i = p; i <= q; ++i)
         *(retstr + i - p) = *(str + i);
     
@@ -168,8 +197,12 @@ int main(void)
                 number = getstr(query, name_end + 2, number_end);
                 // printf("%d %d\n", name_end + 2, number_end);
                 // printf("NAME: %s NUMBER: %s\n", name, number);
-
-                push_front(hash_table + gethash(name, name_end - 1, n), name, number);
+                // printf("name_end == %d, number_end == %d, number_len == %d\n", name_end, number_end, number_end - name_end - 1);
+                push_front(hash_table + gethash(name, name_end - 1, n), name, number, name_end - 1, number_end - name_end -1);
+                // printf("(a) Zwalniam name %p\n", name);
+                free(name);
+                // printf("(a) Zwalniam number %p\n", number);
+                free(number);
             }
             else if (query[0] == 'r')
             {
@@ -182,6 +215,7 @@ int main(void)
                 if (delete_node(hash_table + gethash(name, name_end - 1, n), name) == 0)
                     putchar('\n');     
 
+                // printf("(r) Zwalniam name %p\n", name);
                 free(name);    
             }
             else
@@ -198,10 +232,12 @@ int main(void)
                 {
                     for (int t = 0; t < number_len; ++t)
                     {
-                        putchar(number[t]);
+                        putchar(number[t]); 
                     } 
                     putchar('\n');
                 }
+                // printf("(g) Zwalniam name %p\n", name);
+                free(name);
             }
             
         }
