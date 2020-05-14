@@ -28,7 +28,7 @@ void clear_buff();
 /* Porównanie 2 stringow. (Muszą byc zakonczone znakiem nowej linii) */
 int str_cmp(char * str1, char * str2);
 //====================================================
-int get_hash(char * str1, int mod, int i);
+int get_hash(char * str1, int mod);
 //====================================================
 int insert(Node * hash_arr, char * name, char * number, int n);
 //====================================================
@@ -38,7 +38,7 @@ int str_len(char * str);
 //====================================================
 char * find(Node * hash_arr, char * name, int n);
 //====================================================
-int get_prime(int n);
+int get_power2(int n);
 //====================================================
 
 
@@ -55,7 +55,7 @@ int main(void)
         scanf("%d", &k);
         clear_buff();
 
-        size = get_prime(n);
+        size = get_power2(n);
         // printf("PRIME: %d\n", size);
 
         Node * hash_arr = (Node *)(malloc(sizeof(Node) * size));
@@ -161,10 +161,13 @@ void del_node(Node * node)
 //====================================================
 int insert(Node * hash_arr, char * name, char * number, int n)
 {
-    int idx;
+    int idx, hash = get_hash(name, n);
     for (int i = 0; i < n; ++i)
     {
-        idx = get_hash(name, n, i);
+        idx = (2 * hash + 1) % n;
+        if (idx == 0) ++idx;
+        idx *= i;
+        idx = (idx + hash) % n;
         if ((hash_arr + idx)->state != 's')
         {
             set_node(hash_arr + idx, name, number);
@@ -177,10 +180,13 @@ int insert(Node * hash_arr, char * name, char * number, int n)
 //====================================================
 int rm(Node * hash_arr, char * name, int n)
 {
-    int idx;
+    int idx, hash = get_hash(name, n);
     for (int i = 0; i < n; ++i)
     {
-        idx = get_hash(name, n, i);
+        idx = (2 * hash + 1) % n;
+        if (idx == 0) ++idx;
+        idx *= i;
+        idx = (idx + hash) % n;
         if ((hash_arr + idx)->state == 'e')
         {
             return 0;
@@ -207,10 +213,13 @@ int str_len(char * str)
 //====================================================
 char * find(Node * hash_arr, char * name, int n)
 {
-    int idx;
+    int hash = get_hash(name, n), idx;
     for (int i = 0; i < n; ++i)
     {
-        idx = get_hash(name, n, i);
+        idx = (2 * hash + 1) % n;
+        if (idx == 0) ++idx;
+        idx *= i;
+        idx = (idx + hash) % n;
         if ((hash_arr + idx)->state == 'e')
             return ((char *)(NULL));
         
@@ -225,50 +234,21 @@ char * find(Node * hash_arr, char * name, int n)
     return ((char *)(NULL));
 }
 //====================================================
-//====================================================
-int get_prime(int n)
+int get_power2(int n)
 {
-    n = (n % 2 == 0) ? (n + 1) : (n + 2);
+    int size = 2;
+    while (size < n)
+        size <<= 1;
     
-    int flag = 1, div; 
-
-    while (flag)
-    {
-        div = 3;
-        while (div * div <= n)
-        {
-            if (n % div == 0)
-            {
-                flag = 0;
-                break;
-            }
-            
-            div += 2;
-        }
-        if (flag == 0)
-        {
-            flag = 1;
-            n += 2;
-        }
-        else
-        {
-            return n;
-        }
-    }
-    return -1;
+    return size;
 }
 //====================================================
-//====================================================
-int get_hash(char * str, int mod, int i)
+int get_hash(char * str, int mod)
 {
-    int hash_sum = 0, j = 0, hash_sum2;
+    int hash_sum = 0, j = 0;
     while (*(str + j) != '\0')
         hash_sum += (int)(*(str + j++));
 
-    hash_sum %= mod;
-    hash_sum2 = i * (1 + hash_sum % (mod - 2));
-
-
-    return ((hash_sum + hash_sum2) % mod);
+    return (hash_sum % mod);
 }
 //====================================================
