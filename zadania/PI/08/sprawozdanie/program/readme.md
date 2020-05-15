@@ -1,0 +1,1 @@
+Program do testowania algorytmów.
