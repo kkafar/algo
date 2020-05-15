@@ -1,0 +1,17 @@
+Generowanie wyjścia PI - JAK? 
+1.  Wygenerowanie rodzaju polecenia sprowadza się do wygenerowania liczby całkowitej z zkaresu [0…2].
+    Nigdy nie następuje przepełnienie tablicy, ponieważ wiemy ile rekordów zostanie wygenerowane ==> możemy zaplanować odpowiedno dużą tablicę. 
+
+2.  Jak generować nazwiska?
+Podejdźmy może do tego tak: 
+
+liczbę testów, rozmiar tablicy oraz liczbę zpytań podamy jako argumenty do programu - odpowiednio z, n, k.
+Wygenerujemy sobie do tablicy na typ char k-elementowy ciąg złożony ze znkaów {a, g, r}  // = Q
+Wygenreujemy sobie także k - elementowy ciąg liczb ze zbioru {0, 1, …, k - 1} // = T
+i-te zapytanie będzie składało się z polecenia Q[i] oraz w zależności od rodzaju polecenia nazwiska, bądź numeru i nazwiska spod indeksu T[i] z tablicy D.
+
+Największy problem: generowanie tablicy D. 
+Potrzebujemy generować słowa - 1 - 30 znaków, oraz numery 1-30 znaków (wszystko jako stringi.)
+
+JAK
+
