@@ -14,9 +14,9 @@ int main(void)
     srand(time(NULL));
     int max_h, insertions, removals, searches;
     
-    Timer timer1, timer2;
-    double time1, time2;
-    time1 = time2 = 0;
+    Timer timer;
+    double time1_insert = 0, time1_remove = 0, time1_search = 0, time2_insert = 0, time2_remove = 0, time2_search = 0;
+
 
     scanf("%d\n%d\n%d\n%d", &max_h, &insertions, &removals, &searches);
 
@@ -34,102 +34,95 @@ int main(void)
         ////////////////////////////////////////////////////////////////////////////////
         /// Test 1, skip lista (1)
         ////////////////////////////////////////////////////////////////////////////////
-        timer_start(&timer1);
 
         // Stworzenie i inicjalizacja skip listy
         sl skip_list;
         sl_init(&skip_list, max_h);
          
-        // printf("%d %d %d %d %d\n", max_h, insertions, removals, searches, i);
-
+        ////////////////////////////////////////////////////////////////////////////////
         /* Wstawianie elementow */
+        timer_start(&timer);
         for (int j = 0; j < insertions; ++j)
         {
-            // scanf("%d", &aux);
             sl_insert(&skip_list, *(insert_arr + j));
-            // printf("Dodano %d do listy\n", aux);
         }
-        // sl_print(&skip_list);
+        timer_stop(&timer);
+        time1_insert += timer.passed_time;
+        ////////////////////////////////////////////////////////////////////////////////
         /* Usuwanie elementow */
+        timer_start(&timer);
         for (int j = 0; j < removals; ++j)
         {
-            // scanf("%d", &aux);
-            // printf("Do usuniecia %d\n", aux);
             sl_remove(&skip_list, *(remove_arr + j));
-            // printf("Usunieto: %d\n", aux);
-            
         }
-        // sl_print(&skip_list);
+        timer_stop(&timer);
+        time1_remove += timer.passed_time;
+        ////////////////////////////////////////////////////////////////////////////////
         /* Zapytania dot. kluczy */
-        // printf("SKIPLIST: ");
-        
+        timer_start(&timer);
         for (int j = 0; j < searches; ++j)
         {
-            // scanf("%d", &aux);
             if (sl_find(&skip_list, *(search_arr + j)) == 1)
-                // printf("Y ");
                 continue;
             else
-                // printf("N ");
                 continue;
         }
+        timer_stop(&timer);
+        time1_search += timer.passed_time;
+        ////////////////////////////////////////////////////////////////////////////////
         sl_delete(&skip_list);
-
-        timer_stop(&timer1);
-        time1 += timer1.passed_time;
         ////////////////////////////////////////////////////////////////////////////////
 
         ////////////////////////////////////////////////////////////////////////////////
         /// Test 2, skip lista (2)
         ////////////////////////////////////////////////////////////////////////////////
-        timer_start(&timer2);
-
         // Stworzenie i inicjalizacja skip listy
         slm skip_list_mod;
         slm_init(&skip_list_mod, max_h);
          
-        // printf("%d %d %d %d %d\n", max_h, insertions, removals, searches, i);
-
+        ////////////////////////////////////////////////////////////////////////////////
         /* Wstawianie elementow */
+        timer_start(&timer);
         for (int j = 0; j < insertions; ++j)
         {
-            // scanf("%d", &aux);
             slm_insert(&skip_list_mod, *(insert_arr + j));
-            // printf("Dodano %d do listy\n", aux);
         }
-        // sl_print(&skip_list);
+        timer_stop(&timer);
+        time2_insert += timer.passed_time;
+        ////////////////////////////////////////////////////////////////////////////////
         /* Usuwanie elementow */
+        timer_start(&timer);
         for (int j = 0; j < removals; ++j)
         {
-            // scanf("%d", &aux);
-            // printf("Do usuniecia %d\n", aux);
-            slm_remove(&skip_list_mod, *(remove_arr + j));
-            // printf("Usunieto: %d\n", aux);
-            
+            slm_remove(&skip_list_mod, *(remove_arr + j));  
         }
-        // sl_print(&skip_list);
+        timer_stop(&timer);
+        time2_remove += timer.passed_time;
+        ////////////////////////////////////////////////////////////////////////////////
         /* Zapytania dot. kluczy */
-        printf("\n");
-        // printf("SKIPLIST MOD: ");
+        timer_start(&timer);
         for (int j = 0; j < searches; ++j)
         {
-            // scanf("%d", &aux);
             if (slm_find(&skip_list_mod, *(search_arr + j)) == 1)
-                // printf("Y ");
                 continue;
-            
             else
-                // printf("N ");
                 continue;
         }
+        timer_stop(&timer);
+        time2_search += timer.passed_time;
+        ////////////////////////////////////////////////////////////////////////////////
         slm_delete(&skip_list_mod);
-
-        timer_stop(&timer2);
-        time2 += timer2.passed_time;
         ////////////////////////////////////////////////////////////////////////////////
     }
 
-    printf("\nSKIP LIST: %lf\nSKIPLIST MOD: %lf\n", time1 / TESTS, time2 / TESTS);
+    // Wyswietlanie czasow 
+    printf("SL INS: %lf\n", time1_insert / TESTS);
+    printf("SL RM: %lf\n", time1_remove / TESTS);
+    printf("SL SRCH: %lf\n", time1_search / TESTS);
+    printf("SLM INS: %lf\n", time2_insert / TESTS);
+    printf("SLM RM: %lf\n", time2_remove / TESTS);
+    printf("SLM SRCH: %lf\n", time2_search / TESTS);
+
 
     free(insert_arr);
     free(remove_arr);
