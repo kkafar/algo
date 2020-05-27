@@ -6,7 +6,7 @@
 #include "skiplist_mod.h"
 
 // #define __TEST__
-#define TESTS 1000
+#define TESTS 100
 
 #ifndef __TEST__
 int main(void)
@@ -41,34 +41,33 @@ int main(void)
          
         ////////////////////////////////////////////////////////////////////////////////
         /* Wstawianie elementow */
-        timer_start(&timer);
         for (int j = 0; j < insertions; ++j)
         {
+            timer_start(&timer);
             sl_insert(&skip_list, *(insert_arr + j));
+            timer_stop(&timer);
+            time1_insert = time1_insert + timer.passed_time;
+            // printf("Czas po %d probach: %10lf, czas od ostatniej proby: %10lf\n", i + 1, time1_insert, timer.passed_time);
         }
-        timer_stop(&timer);
-        time1_insert += timer.passed_time;
+        // printf("Czas po %d probach: %10lf, czas od ostatniej proby: %10lf\n", i + 1, time1_insert, timer.passed_time);
         ////////////////////////////////////////////////////////////////////////////////
         /* Usuwanie elementow */
-        timer_start(&timer);
         for (int j = 0; j < removals; ++j)
         {
+            timer_start(&timer);
             sl_remove(&skip_list, *(remove_arr + j));
+            timer_stop(&timer);
+            time1_remove += timer.passed_time;
         }
-        timer_stop(&timer);
-        time1_remove += timer.passed_time;
         ////////////////////////////////////////////////////////////////////////////////
         /* Zapytania dot. kluczy */
-        timer_start(&timer);
         for (int j = 0; j < searches; ++j)
         {
-            if (sl_find(&skip_list, *(search_arr + j)) == 1)
-                continue;
-            else
-                continue;
+            timer_start(&timer);
+            sl_find(&skip_list, *(search_arr + j));
+            timer_stop(&timer);
+            time1_search += timer.passed_time;
         }
-        timer_stop(&timer);
-        time1_search += timer.passed_time;
         ////////////////////////////////////////////////////////////////////////////////
         sl_delete(&skip_list);
         ////////////////////////////////////////////////////////////////////////////////
@@ -82,34 +81,33 @@ int main(void)
          
         ////////////////////////////////////////////////////////////////////////////////
         /* Wstawianie elementow */
-        timer_start(&timer);
         for (int j = 0; j < insertions; ++j)
         {
+            timer_start(&timer);
             slm_insert(&skip_list_mod, *(insert_arr + j));
+            timer_stop(&timer);
+            time2_insert += timer.passed_time;
         }
-        timer_stop(&timer);
-        time2_insert += timer.passed_time;
+        
         ////////////////////////////////////////////////////////////////////////////////
         /* Usuwanie elementow */
-        timer_start(&timer);
         for (int j = 0; j < removals; ++j)
         {
-            slm_remove(&skip_list_mod, *(remove_arr + j));  
+            timer_start(&timer);
+            slm_remove(&skip_list_mod, *(remove_arr + j)); 
+            timer_stop(&timer);
+            time2_remove += timer.passed_time; 
         }
-        timer_stop(&timer);
-        time2_remove += timer.passed_time;
+
         ////////////////////////////////////////////////////////////////////////////////
         /* Zapytania dot. kluczy */
-        timer_start(&timer);
         for (int j = 0; j < searches; ++j)
         {
-            if (slm_find(&skip_list_mod, *(search_arr + j)) == 1)
-                continue;
-            else
-                continue;
+            timer_start(&timer);
+            slm_find(&skip_list_mod, *(search_arr + j));
+            timer_stop(&timer);
+            time2_search += timer.passed_time;
         }
-        timer_stop(&timer);
-        time2_search += timer.passed_time;
         ////////////////////////////////////////////////////////////////////////////////
         slm_delete(&skip_list_mod);
         ////////////////////////////////////////////////////////////////////////////////
@@ -121,7 +119,7 @@ int main(void)
     printf("SL RM:    %8lf    %8lf\n", time1_remove, time1_remove / TESTS);
     printf("SL SRCH:  %8lf    %8lf\n", time1_search, time1_search / TESTS);
     printf("SLM INS:  %8lf    %8lf\n", time2_insert, time2_insert / TESTS);
-    printf("SLM RM:   %8lf    %8lf\n", time2_remove, time2_remove / TESTS );
+    printf("SLM RM:   %8lf    %8lf\n", time2_remove, time2_remove / TESTS);
     printf("SLM SRCH: %8lf    %8lf\n", time2_search, time2_search / TESTS);
     
 
