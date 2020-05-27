@@ -6,7 +6,7 @@
 #include "skiplist_mod.h"
 
 // #define __TEST__
-#define TESTS 1
+#define TESTS 100
 
 #ifndef __TEST__
 int main(void)
