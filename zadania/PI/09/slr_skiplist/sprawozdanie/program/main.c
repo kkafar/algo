@@ -6,7 +6,7 @@
 #include "skiplist_mod.h"
 
 // #define __TEST__
-#define TESTS 100
+#define TESTS 1000
 
 #ifndef __TEST__
 int main(void)
@@ -116,12 +116,14 @@ int main(void)
     }
 
     // Wyswietlanie czasow 
-    printf("SL INS: %lf\n", time1_insert / TESTS);
-    printf("SL RM: %lf\n", time1_remove / TESTS);
-    printf("SL SRCH: %lf\n", time1_search / TESTS);
-    printf("SLM INS: %lf\n", time2_insert / TESTS);
-    printf("SLM RM: %lf\n", time2_remove / TESTS);
-    printf("SLM SRCH: %lf\n", time2_search / TESTS);
+    printf("TESTS: %d\n", TESTS);
+    printf("SL INS:   %8lf    %8lf\n", time1_insert, time1_insert / TESTS);
+    printf("SL RM:    %8lf    %8lf\n", time1_remove, time1_remove / TESTS);
+    printf("SL SRCH:  %8lf    %8lf\n", time1_search, time1_search / TESTS);
+    printf("SLM INS:  %8lf    %8lf\n", time2_insert, time2_insert / TESTS);
+    printf("SLM RM:   %8lf    %8lf\n", time2_remove, time2_remove / TESTS );
+    printf("SLM SRCH: %8lf    %8lf\n", time2_search, time2_search / TESTS);
+    
 
 
     free(insert_arr);
