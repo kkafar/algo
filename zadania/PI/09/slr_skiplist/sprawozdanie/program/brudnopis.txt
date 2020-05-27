@@ -1,0 +1,17 @@
+Idea:
+Program testuje 2. implementacje skip listy.
+1. Bez zasady lokalności odwołań
+2. Z realizacją lokalności odwołań.
+
+Maksymalna wysokość listy (max_h), ilość 'wstawień' (insertions), ilość usunięć (removals), ilość zapytań (searches)
+- te wielkośći podawane są jako argumenty w czasie działania programu. 
+
+1. Generujemy odpowiednią sekwencję wstawień - tablicę insertions-elementową zawierającą kolejne liczby do wstawienia. 
+Liczby losujemy ze zbioru {0, …, insertions} (==> zakładamy insertions >= 0)
+2. Tak samo generujemy sekwencję usunięć. 
+3. Tak samo generujemy sekwencję zapytań. 
+
+4. Dokonujemy TEST-krotnie testu zwykłej skip listy (1)
+5. Dokonujemy TEST-krotnie testu skip listy (2)
+
+6. Jako rezultat bierzemy czas średni.
