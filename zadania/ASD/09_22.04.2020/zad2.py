@@ -1,6 +1,12 @@
 # K. Kafara
 
-from collections import deque 
+# Opis rozwiązania na str. 4-5 "ASD, Z"
+
+# W implementacji listowej grafu, testowanie czy jakaś krawędź istnieje jest niestety w czasie O(E) ==> algorytm oparty na tym pomyśle jest O(VE).
+# Natmiast jeżelibyśmy użyli reprezentacji macierzowej, sprawdzanei czy krawędź istnieje byloby w czasie O(1), natomiast sortowanie topologiczne działałoby wolniej
+
+# Trzeba dopowiedzeć: nie wiem czy jest to rozwiązanie optymalne.
+
 
 
 class GraphAdjList:
@@ -62,7 +68,6 @@ class GraphAdjList:
 
             queue.append(v)
 
-
         queue = []
 
         for i in range(self.rank):
@@ -71,26 +76,48 @@ class GraphAdjList:
 
         return queue
 
+    def isEdge(self, beg, end):
+        for edge in self.graph[beg].edges:
+            if edge.end == end:
+                return True
+        return False
+
+    def solution(self):
+        topo_order = self.toposort()
+        for i in range(len(topo_order) - 1, 0, -1):
+            if self.isEdge(topo_order[i], topo_order[i - 1]) == False:
+                return None
+
+        return topo_order
+
 
 def main():
     with open('input_zad2.txt', 'r') as input_file:
-    rank = int(input_file.readline())
-    size = int(input_file.readline())
-
-    graph = GraphAdjList(rank)
+        rank = int(input_file.readline())
+        size = int(input_file.readline())
     
-    for i in range(size):
-        line = input_file.readline().strip('\n').split(' ')
-        beg = int(line[0])
-        end = int(line[1])
-        graph.add_dir_edge(beg, end)
+        graph = GraphAdjList(rank)
+        
+        for i in range(size):
+            line = input_file.readline().strip('\n').split(' ')
+            beg = int(line[0])
+            end = int(line[1])
+            graph.add_dir_edge(beg, end)
+    
+    
+        graph.printg()
+    
+        topo_order = graph.solution()
+    
+        if topo_order is None:
+            print("W DAG'u nie ma sciekzi Hamiltona")
+    
+        else:
+            print("W DAG'u mamy sciezke Hamiltona")
+            for i in range( len(topo_order) - 1, -1, -1):
+                print(topo_order[i], end=' ')
 
-
-    graph.printg()
-
-    toposorted = graph.toposort()
-
-    print(toposorted)
+            print()
 
 
 
