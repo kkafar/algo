@@ -2,19 +2,22 @@
 
 
 """
-Przemyślenia: 
+Rozw. (GL)
+- Wykonać algorytm DFS śledząc czasy przetworzenia wierzchołków. O(V + E)
+- Wykonać algorytm DFS z wierzchołka o największym czasie przetworzenia. O(V + E)
+- Jeżeli uda się dowiedzić wszystkie wierzchołki to wyznaczyliśmy dobry początek. (Jest nim korzeń drugiego wywołania)
 
-* Można wykorzystać algorytm Floyda-Warshalla O(V^3) a następnie przglądnąć
-macierz najkrótszych ścieżek - jeżeli znaleźlibyśmy wiersz w bez żadnej nieskończoności 
-to by oznaczało, że z wierzchołka w możemy dotrzeć do każdego innego. O(V^2) ==> ostatecznie O(V^3)
+Czas: 2 * O(V + E) + O(V) == O(V + E)
+                      ^ (na zerowanie pól visited w drugim przebiegu dfs'a / rezerwowanie tablicy w dfs)
 
-* Można by też V-krotnie puścić Dijkstrę lub Bellmana-Forda, ale wtedy dla grafów gęstych (E ~ V^2) 
-stracilibyśmy górne ograniczenie O(V^3), choć dla grafów rzadkich (E ~ V) czas byłby lepszy. (+ korzystanie z 
-reprezentacji listowej byłoby wydajniejsze dla algorytmów)
+Dlaczego to działa? 
+Jeżeli w czasie wywołania DFS z jednego z wierzchołków natrafimy na 'dobry początek' - to w tym wywołaniu 
+przeglądniemy graf do końca, ponieważ z 'dobrego początku' mamy dojście wszędzie - do każdego nieodwiedzonego jeszcze wierzchołka. 
+Zatem jeżeli istnieje dobry początek, to znajduje się on w 'ostatnim' drzewie przeszukiwań DFS. 
+Co więcej skoro z korzenia drzewa DFS doszliśmy do 'dobrego początku', to dobrym początkiem równie dobrze może być sam korzeń
+(z założenia istnieje ścieżka 'dobry początek' -> korzeń, a przeglądając graf stwierdzamy, że istnieje korzeń -> 'dobry początek')
+Korzeń ostatniego drzewa DFS ma największy czas przetworzenia (!) ==> jest to nasz kandydat na 'dobry początek'.  
+Pozostaje to zweryfikować wykonując kolejne wykonanie algorytmu DFS na grafie z wytypowanego wierzchołka. Jeżeli uda nam się odwiedzić wszystkie
+wierzchołki - to mammy wyznaczony 'dobry początek', wpp. takowy nie istnieje. 
 
-* Nie mam pojęcia czy można to zrobić lepiej. Być może nie trzeba przeprowadzać aż tyle relaksacji? 
-
-* Puścić V razy DFSa? Jeżeli w którymś wywołaniu odwiedzimy wszytkie wierzcholki (można je zliczać) to zwracamy True
-w innym przypadku False. O(V(V + E)) == O(V^2 + EV) co dla grafów gęstych daje O(V^3) 
-
-* Całkiem prawdopodobne, że te rozwiązania nawet nie są bliskie optymalnego. """
+O(V + E)'''
