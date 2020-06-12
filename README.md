@@ -1,2 +1,2 @@
 # my-projects
-Moje główne repozytorium. 
+kkafara's repo 
