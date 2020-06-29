@@ -8,6 +8,7 @@
 7. [Singly linked list](py/linked_list_python.py)
 8. [Min heap and max heap](py/min_and_max_heap.py)
 9. [Min priority queue and max priority queue](py/min_max_prior_queue.py)
+10. [Queue (dynamic size)](py/queue.py)
 
 ### C++
 1. [Graph, adjacency list, class representation](cpp/graf-klasa.cpp)
@@ -26,5 +27,4 @@
 ### C
 1. [BST](c/bst.c)
 2. [Singly Linked List](c/singly_linked_list.c)
-https://github.com/kkafar/my-projects/blob/master/struktury-danych/c/singly_linked_list.c
 3. [Stack](c/stack.c)
