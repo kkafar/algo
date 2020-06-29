@@ -1,5 +1,5 @@
 ### Python
-1. Array queue (fixed size)
+1. [Array queue (fixed size)](py/arr_queue.py)
 https://github.com/kkafar/my-projects/blob/master/struktury-danych/py/arr_queue.py
 2. BST
 https://github.com/kkafar/my-projects/blob/master/struktury-danych/py/bst_python.py
