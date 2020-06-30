@@ -47,5 +47,5 @@ Zatem mamy z góry narzucone wartościowanie dla pewnego podzbioru literałów.
 1. Budujemy graf formuły. 
 Na tym etapie sprawdzamy od razu czy nie zachodzi 5° (możemy np. dodając kolejne krawędzie zliczać dla jakiej liczby wierzchołków
 zmieniliśmy stopień in/out z 0 na 1. Jeżeli wyjdzie nam liczba < liczba_wierzchołków w grafie to wiemy, że zachodzi 5° i możemy od razu udzielić odpowiedzi)
-2. Dalej działamy tak jak w zadaniu 4, ponieważ wszystkie warunki dla poszczególnych wierzchołków muszą zachodzić jednocześnie ==> łączymy je koniunkjcą. (Czyli wyznaczamy silnie spójne składowe, jednocześnie sprawdzając czy w obrębie jednej silnie spójnej składowej nie znajdują się literały komplementarne)
+2. Dalej działamy tak jak w zadaniu 4, ponieważ wszystkie warunki dla poszczególnych wierzchołków muszą zachodzić jednocześnie ==> łączymy je koniunkjcą. (Czyli wyznaczamy silnie spójne składowe, jednocześnie sprawdzając czy w obrębie jednej silnie spójnej składowej nie znajdują się literały komplementarne. Jeżeli się takie literały znajdują ==> rozwiązanie nie istnieje).
 """
