@@ -1,0 +1,20 @@
+### Python 
+1. [Bellman-Ford](py/bellman-ford.py)
+2. [bfs](py/bfs.py)
+3. [Punkty artykulacji (cut points(?))](py/cut_points.py)
+4. [Dijkstra](py/dijkstra.pyp)
+5. [Odnajdywanie mostów (find_bridges)](py/find_bridges.py)
+6. [MST Kruskal](py/mst_kruskal.py)
+7. [Silnie spójne składowe (scc)](py/scc.py)
+8. [Sortowanie topologiczne](py/toposort.py)
+
+### C++
+1. [BFS](cpp/BFS.cpp)
+2. [BFS-DFS](cpp/bfs-dfs.cpp)
+3. [DFS](cpp/DFS.cpp)
+4. [dfs-ls](cpp/dfs-ls.cpp)
+5. [Kwadrat grafu](cpp/kwadrat-grafu-ls.cpp)
+6. [Scc, Kosaraju](cpp/scc-korsaraju.cpp)
+7. [Dijkstra](cpp/szukanie-drogi-dijkstra.cpp)
+8. [Sortowanie topologiczne](cpp/toposort1.cpp)
+9. [Transpozycja grafu](cpp/transpozycja-grafu-ls.cpp)
