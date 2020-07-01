@@ -146,6 +146,8 @@ class GraphAdjMatrix:
                             parent_arr[i] = current_vertex
                             q.push(i, self.weight[current_vertex][i])
 
+        return INF
+
 
 def get_path(parent_arr, vertex):
     v = vertex
