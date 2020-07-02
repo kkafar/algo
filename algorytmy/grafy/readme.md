@@ -7,6 +7,8 @@
 6. [MST Kruskal](py/mst_kruskal.py)
 7. [Silnie spójne składowe (scc)](py/scc.py)
 8. [Sortowanie topologiczne](py/toposort.py)
+9. [Floyd Warshall](py/floyd_warshall.py)
+10. [Bellman-Ford (matrix rep.)](py/bellman_ford_matrix_rep.py)
 
 ### C++
 1. [BFS](cpp/BFS.cpp)
