@@ -44,7 +44,6 @@ class ArrQueue:
 		return self.queue[self.beg]	
 
 
-
 class GraphAdjList:
     '''
     @brief Reprezentacja grafu poprzez listę sąsiedztwa. Konstrucja podobna do tej stosowanej w cpp. \n
@@ -96,6 +95,13 @@ class GraphAdjList:
             
             print()
 
+    def print_rev(self):
+        for i in range(self.rank):
+            print(i, end=': ')
+            for edge in self.graph[i].edges:
+                print('(end={}, idx={})'.format(edge.end, edge.rev), end=' ')
+            print()
+
     def dfs(self, source):
         ''' Od razu wrapper, gdyby chcież wywoływać dfs'a na całym grafie (nie np. tylko na jednej spójnej (silnie) składowej ) '''
         def _dfs(current_vertex):
@@ -120,3 +126,5 @@ class GraphAdjList:
                 if self.graph[ self.graph[current_vertex].edges[i].end ].visited == False:
                     self.graph[ self.graph[current_vertex].edges[i].end ].parent = current_vertex
                     queue.push(self.graph[current_vertex].edges[i].end)
+
+
