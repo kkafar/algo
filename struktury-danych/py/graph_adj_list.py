@@ -57,9 +57,11 @@ class GraphAdjList:
      '''
 
     class Edge:
-        def __init__(self, end, weight = 1):
+        def __init__(self, end, weight = 1, rev = -1):
             self.end = end
             self.weight = weight    
+            # Dla krawędzi nieskierowanej (indeks krawędzi przeciwnie skierowanej na liście wierzchołka 'end'):
+            self.rev = rev
     
     class Vertex:
         def __init__(self):
@@ -80,12 +82,11 @@ class GraphAdjList:
     def add_dir_edge(self, b, e):
         self.graph[b].edges.append(self.Edge(e))
 
-    # Sciągamy komentarz gdy rozważamy graf nieskierowany
-    '''def add_undir_edge(self, b, e):
-        self.graph[b].edges.append(self.Edge(e))
-        self.graph[e].edges.append(self.Edge(b))
-        # TODO:  obliczanie na bieżąco indeksu pod którym znajduje się krawędź przeciwna
-        # na liście drugiego końca krawędzi'''
+
+    def add_undir_edge(self, b, e, weight):
+        self.graph[b].edges.append(self.Edge(e, weight, len(self.graph[e].edges)))
+        self.graph[e].edges.append(self.Edge(b, weight, len(self.graph[b].edges) - 1))
+        
 
     def printg(self):
         for i in range(self.rank):
