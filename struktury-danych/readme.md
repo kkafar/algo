@@ -28,3 +28,4 @@
 1. [BST](c/bst.c)
 2. [Singly Linked List](c/singly_linked_list.c)
 3. [Stack](c/stack.c)
+4. [Skiplist](c/skiplist.c)
